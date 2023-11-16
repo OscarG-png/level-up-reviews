@@ -1,5 +1,6 @@
+from unittest import result
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from queries.pool import pool
 
 
@@ -19,6 +20,33 @@ class UserOut(BaseModel):
 
 
 class UserRepository:
+    def get_all_users(self) -> List[UserOut]:
+        try:
+            with pool.connection() as conn:
+
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT id, username, email, password, profile_picture
+                        FROM users
+                        ORDER BY username
+                        """
+                    )
+                    result = []
+                    for record in db:
+                        users = UserOut(
+                            id=record[0],
+                            username=record[1],
+                            email=record[2],
+                            password=record[3],
+                            profile_picture=record[4],
+                        )
+                        result.append(users)
+                    return result
+        except Exception as e:
+            return {"message":"Could not get all users"}
+
+
     def create(self, users: UserIn) -> UserOut:
         with pool.connection() as conn:
             with conn.cursor() as db:

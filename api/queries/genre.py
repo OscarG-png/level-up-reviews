@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from queries.pool import pool
-
+from typing import List
 
 class GenreIn(BaseModel):
     title: str
@@ -33,3 +33,17 @@ class GenreRepository:
                 id = result.fetchone()[0]
                 old_data = genre.dict()
                 return GenreOut(id=id, **old_data)
+
+    def get_all(self) -> List[GenreOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT id, title
+                    FROM genre
+                    ORDER BY title
+                    """
+                )
+                return [
+                    GenreOut(id=record[0], title=record[1]) for record in db
+                ]

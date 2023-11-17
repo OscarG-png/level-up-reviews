@@ -39,11 +39,15 @@ class GenreRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT id, title
+                    SELECT id, title, description
                     FROM genre
                     ORDER BY title
                     """
                 )
                 return [
-                    GenreOut(id=record[0], title=record[1]) for record in db
+                    GenreOut(id=record[0],
+                             title=record[1],
+                             description=record[2],
+                            )
+                            for record in db
                 ]

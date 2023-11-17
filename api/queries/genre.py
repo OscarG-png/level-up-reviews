@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from queries.pool import pool
 from typing import List
 
+
 class GenreIn(BaseModel):
     title: str
     description: str
@@ -45,9 +46,10 @@ class GenreRepository:
                     """
                 )
                 return [
-                    GenreOut(id=record[0],
-                             title=record[1],
-                             description=record[2],
-                            )
-                            for record in db
+                    GenreOut(
+                            id=record[0],
+                            title=record[1],
+                            description=record[2],
+                    )
+                    for record in db
                 ]

@@ -30,5 +30,4 @@ steps = [
         DROP TABLE games;
         """
     ]
-
 ]

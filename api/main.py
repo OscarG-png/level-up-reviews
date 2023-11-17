@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import users, games
+from routers import users, games, genre
 import os
 
 app = FastAPI()

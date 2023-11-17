@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from queries.users import UserIn, UserOut, UserRepository
 from typing import List
 
+
 router = APIRouter()
 
 
@@ -11,6 +12,7 @@ def create_user(
     repo: UserRepository = Depends()
 ):
     return repo.create(users)
+
 
 @router.get("/users", response_model=List[UserOut])
 def get_all_users(

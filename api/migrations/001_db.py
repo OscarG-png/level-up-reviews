@@ -29,6 +29,19 @@ steps = [
         """
         DROP TABLE games;
         """
-    ]
+    ],
+    [
+        ## Create the table
+        """
+        CREATE TABLE platforms (
+            id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+            name VARCHAR(25) NOT NULL
+        );
+        """,
+        # Drop the table
+        """
+        DROP TABLE platforms;
+        """
+    ],
 
 ]

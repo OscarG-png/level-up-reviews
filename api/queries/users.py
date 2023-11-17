@@ -1,4 +1,3 @@
-from unittest import result
 from pydantic import BaseModel
 from typing import Optional, List
 from queries.pool import pool
@@ -23,7 +22,6 @@ class UserRepository:
     def get_all_users(self) -> List[UserOut]:
         try:
             with pool.connection() as conn:
-
                 with conn.cursor() as db:
                     result = db.execute(
                         """
@@ -43,9 +41,8 @@ class UserRepository:
                         )
                         result.append(users)
                     return result
-        except Exception as e:
-            return {"message":"Could not get all users"}
-
+        except Exception:
+            return {"message": "Could not get all users"}
 
     def create(self, users: UserIn) -> UserOut:
         with pool.connection() as conn:
@@ -58,11 +55,12 @@ class UserRepository:
                         (%s, %s, %s, %s)
                     RETURNING id
                     """,
-                    [users.username,
-                     users.email,
-                     users.password,
-                     users.profile_picture
-                     ]
+                    [
+                        users.username,
+                        users.email,
+                        users.password,
+                        users.profile_picture,
+                    ],
                 )
                 id = result.fetchone()[0]
                 old_data = users.dict()

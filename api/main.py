@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import users, games
+from routers import users, games, platforms
 import os
 
 app = FastAPI()
 app.include_router(users.router)
 app.include_router(games.router)
+app.include_router(platforms.router)
 
 app.add_middleware(
     CORSMiddleware,

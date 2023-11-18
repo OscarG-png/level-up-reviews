@@ -13,7 +13,7 @@ steps = [
         # Drop the table
         """
         DROP TABLE users;
-        """
+        """,
     ],
     [
         ## Create the table
@@ -28,7 +28,7 @@ steps = [
         # Drop the table
         """
         DROP TABLE games;
-        """
+        """,
     ],
     [
         ## Create the table
@@ -41,7 +41,7 @@ steps = [
         # Drop the table
         """
         DROP TABLE platforms;
-        """
+        """,
     ],
     [
         ## Create the table
@@ -55,7 +55,22 @@ steps = [
         # Drop the table
         """
         DROP TABLE genre;
+        """,
+    ],
+    [
+        ## Create the table
         """
-
-    ]
+        CREATE TABLE game_platforms (
+            game_id INT NOT NULL,
+            platform_id INT NOT NULL,
+            FOREIGN KEY (game_id) REFERENCES games(id),
+            FOREIGN KEY (platform_id) REFERENCES platforms(id),
+            PRIMARY KEY (game_id, platform_id)
+        );
+        """,
+        # Drop the table
+        """
+        DROP TABLE game_platforms;
+        """,
+    ],
 ]

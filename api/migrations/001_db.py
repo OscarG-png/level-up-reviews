@@ -6,7 +6,7 @@ steps = [
             id SERIAL PRIMARY KEY NOT NULL UNIQUE,
             username VARCHAR(100) NOT NULL,
             email VARCHAR(200) NOT NULL,
-            password VARCHAR(50) NOT NULL,
+            password VARCHAR(200) NOT NULL,
             profile_picture VARCHAR(500)
         );
         """,

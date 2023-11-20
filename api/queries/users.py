@@ -14,11 +14,28 @@ class UserOut(BaseModel):
     id: int
     username: str
     email: str
-    password: str
     profile_picture: Optional[str]
 
 
+class UserOutWithpassword(UserOut):
+    password: str
+
+
+class DuplicateUserError(ValueError):
+    pass
+
+
 class UserRepository:
+    def record_to_userout(self, record) -> UserOutWithpassword:
+        user_dict = {
+            "id": record[0],
+            "username": record[1],
+            "email": record[2],
+            "password": record[3],
+            "profile_picture": record[4]
+        }
+        return user_dict
+
     def get_all_users(self) -> List[UserOut]:
         try:
             with pool.connection() as conn:
@@ -41,10 +58,36 @@ class UserRepository:
                         )
                         result.append(users)
                     return result
-        except Exception:
-            return {"message": "Could not get all users"}
+        except Exception as e:
+            return {"message": e}
 
-    def create(self, users: UserIn) -> UserOut:
+    def get(self, username: str) -> UserOutWithpassword:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT
+                        id,
+                        username,
+                        email,
+                        password,
+                        profile_picture
+                        FROM users
+                        WHERE username = %s
+                        """,
+                        [username],
+                    )
+                    record = result.fetchone()
+                    if record is None:
+                        return None
+                    return self.record_to_userout(record)
+        except Exception:
+            return {"message": "Could not find account"}
+
+    def create(self,
+               users: UserIn,
+               hashed_password: str) -> UserOutWithpassword:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -53,15 +96,22 @@ class UserRepository:
                         (username, email, password, profile_picture)
                     VALUES
                         (%s, %s, %s, %s)
-                    RETURNING id
+                    RETURNING
+                    id,
+                    username,
+                    email,
+                    password,
+                    profile_picture
                     """,
                     [
                         users.username,
                         users.email,
-                        users.password,
+                        hashed_password,
                         users.profile_picture,
                     ],
                 )
                 id = result.fetchone()[0]
                 old_data = users.dict()
-                return UserOut(id=id, **old_data)
+                new_user = UserOutWithpassword(id=id, **old_data)
+                print("printing new user", new_user)
+                return new_user

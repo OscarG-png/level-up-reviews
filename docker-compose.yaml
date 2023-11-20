@@ -6,6 +6,7 @@ services:
     environment:
       CORS_HOST: http://localhost:3000
       DATABASE_URL: postgresql://example_user:secret@postgres-data/example_db
+      SIGNING_KEY: 7744dd62177c1d0060322fac2a1b9a0c84f68ac18ac02654de34d1f2f535ff89
     build:
       context: api
       dockerfile: Dockerfile.dev

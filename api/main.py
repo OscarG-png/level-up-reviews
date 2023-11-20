@@ -1,12 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import users, games, platforms, genre, game_platforms
+from authenticator import authenticator
 import os
 
 app = FastAPI()
 app.include_router(users.router)
 app.include_router(games.router)
 app.include_router(platforms.router)
+app.include_router(authenticator.router)
 app.include_router(genre.router)
 app.include_router(game_platforms.router)
 

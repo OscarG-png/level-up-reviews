@@ -76,3 +76,18 @@ def get_a_user(
     repo: UserRepository = Depends(),
 ):
     return repo.get()
+
+
+@router.put("/users/{user_id}", response_model=AccountToken)
+async def update_user(
+    user_id: int,
+    user: UserIn,
+    request: Request,
+    response: Response,
+    repo: UserRepository = Depends(),
+):
+    hashed_password = authenticator.hash_password(user.password)
+    user = repo.update(user, user_id, hashed_password)
+    form = AccountForm(username=user.username, password=user.password)
+    token = await authenticator.login(response, request, form, repo)
+    return AccountToken(user=user, **token.dict())

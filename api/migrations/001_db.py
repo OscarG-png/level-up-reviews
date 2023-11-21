@@ -73,4 +73,20 @@ steps = [
         DROP TABLE game_platforms;
         """,
     ],
+    [
+        ## Create the table
+        """
+        CREATE TABLE game_genres (
+            game_id INT NOT NULL,
+            genre_id INT NOT NULL,
+            FOREIGN KEY (game_id) REFERENCES games(id),
+            FOREIGN KEY (genre_id) REFERENCES genre(id),
+            PRIMARY KEY (game_id, genre_id)
+        );
+        """,
+        # Drop the table
+        """
+        DROP TABLE game_genres;
+        """,
+    ],
 ]

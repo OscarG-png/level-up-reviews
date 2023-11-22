@@ -18,6 +18,42 @@ class GameOut(BaseModel):
 
 
 class GameRepository:
+    def game_in_to_out(self, id: int, games: GameIn):
+        old_data = games.dict()
+        return GameOut(id=id, **old_data)
+
+    def delete(self, game_id: int) -> bool:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    DELETE FROM games
+                    WHERE id = %s
+                    """,
+                    [game_id]
+                )
+                return True
+
+    def update(self, game_id: int, games: GameIn) -> GameOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    UPDATE games
+                    SET title = %s
+                     , release_date = %s
+                     , esrb_rating = %s
+                    WHERE id = %s
+                    """,
+                    [
+                        games.title,
+                        games.release_date,
+                        games.esrb_rating,
+                        game_id
+                    ]
+                )
+                return self.game_in_to_out(game_id, games)
+
     def create(self, games: GameIn) -> GameOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -32,8 +68,7 @@ class GameRepository:
                     [games.title, games.release_date, games.esrb_rating],
                 )
                 id = result.fetchone()[0]
-                old_data = games.dict()
-                return GameOut(id=id, **old_data)
+                return self.game_in_to_out(id, games)
 
     def get_all(self) -> List[GameOut]:
         with pool.connection() as conn:

@@ -1,0 +1,67 @@
+from pydantic import BaseModel
+from typing import List
+from queries.pool import pool
+from datetime import date
+
+
+class ReviewIn(BaseModel):
+    title: str
+    content: str
+    review_date: date
+    rating: int
+    game_id: int
+    user_id: int
+
+
+class ReviewOut(BaseModel):
+    id: int
+    title: str
+    content: str
+    review_date: date
+    rating: int
+    game_id: int
+    user_id: int
+
+
+class ReviewRepository:
+    def create(self, reviews: ReviewIn) -> ReviewOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    INSERT INTO reviews
+                        (title, content, review_date, rating, game_id, user_id)
+                    VALUES
+                        (%s, %s, %s, %s, %s, %s)
+                    RETURNING id
+                    """,
+                    [reviews.title, reviews.content, reviews.review_date,
+                     reviews.rating, reviews.game_id, reviews.user_id]
+                )
+                id = result.fetchone()[0]
+                old_data = reviews.dict()
+                return ReviewOut(id=id, **old_data)
+
+    def get_all(self) -> List[ReviewOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT (id, title, content, review_date,
+                      rating, game_id, user_id)
+                    FROM reviews
+                    ORDER BY game_id
+                    """
+                )
+                return [
+                    ReviewOut(
+                        id=record[0],
+                        title=record[1],
+                        content=record[2],
+                        review_date=record[3],
+                        rating=record[4],
+                        game_id=record[5],
+                        user_id=record[6]
+                    )
+                    for record in db
+                ]

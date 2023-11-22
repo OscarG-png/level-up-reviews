@@ -89,4 +89,24 @@ steps = [
         DROP TABLE game_genres;
         """,
     ],
+    [
+        ## Create the table
+        """
+        CREATE TABLE reviews (
+            id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+            title VARCHAR(100) NOT NULL,
+            content TEXT NOT NULL,
+            review_date DATE NOT NULL,
+            rating INT CHECK (rating >= 0 AND rating <= 100),
+            game_id INT NOT NULL,
+            user_id INT NOT NULL,
+            FOREIGN KEY (game_id) REFERENCES games(id),
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        );
+        """,
+        # Drop the table
+        """
+        DROP TABLE reviews;
+        """,
+    ],
 ]

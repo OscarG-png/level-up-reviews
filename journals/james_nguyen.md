@@ -7,3 +7,4 @@ I created and imported the routers together. I also added the router or pathway 
 
 Today, I learned how to set up the table properly for genre. It clicked in terms of what I needed to put in, which wasn't very much compared to certain things like the user.
 It helped to solidify my knowledge on these types of things.
+

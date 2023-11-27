@@ -113,7 +113,6 @@ class UserRepository:
                 id = result.fetchone()[0]
                 old_data = users.dict()
                 new_user = UserOutWithpassword(id=id, **old_data)
-                print("printing new user", new_user)
                 return new_user
 
     def update(self,

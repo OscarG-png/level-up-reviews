@@ -35,8 +35,14 @@ class ReviewRepository:
                         (%s, %s, %s, %s, %s, %s)
                     RETURNING id
                     """,
-                    [reviews.title, reviews.content, reviews.review_date,
-                     reviews.rating, reviews.game_id, reviews.user_id]
+                    [
+                        reviews.title,
+                        reviews.content,
+                        reviews.review_date,
+                        reviews.rating,
+                        reviews.game_id,
+                        reviews.user_id,
+                    ],
                 )
                 id = result.fetchone()[0]
                 old_data = reviews.dict()
@@ -61,7 +67,31 @@ class ReviewRepository:
                         review_date=record[3],
                         rating=record[4],
                         game_id=record[5],
-                        user_id=record[6]
+                        user_id=record[6],
+                    )
+                    for record in db
+                ]
+
+    def get_all_for_game(self, game_id: int) -> List[ReviewOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT *
+                    FROM reviews
+                    WHERE game_id = %s
+                    """,
+                    [game_id],
+                )
+                return [
+                    ReviewOut(
+                        id=record[0],
+                        title=record[1],
+                        content=record[2],
+                        review_date=record[3],
+                        rating=record[4],
+                        game_id=record[5],
+                        user_id=record[6],
                     )
                     for record in db
                 ]

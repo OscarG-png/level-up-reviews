@@ -23,6 +23,11 @@ class ReviewOut(BaseModel):
     user_id: int
 
 
+class GameRatingOut(BaseModel):
+    title: str
+    average_rating: float
+
+
 class ReviewRepository:
     def create(self, reviews: ReviewIn) -> ReviewOut:
         with pool.connection() as conn:
@@ -53,8 +58,8 @@ class ReviewRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT (id, title, content, review_date,
-                      rating, game_id, user_id)
+                    SELECT id, title, content, review_date,
+                      rating, game_id, user_id
                     FROM reviews
                     ORDER BY game_id
                     """
@@ -93,5 +98,25 @@ class ReviewRepository:
                         game_id=record[5],
                         user_id=record[6],
                     )
+                    for record in db
+                ]
+    def get_top_rated_games(self) -> List[GameRatingOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT
+                        g.title AS gametitle,
+                        AVG(r.rating) AS averagerating
+                    FROM games g
+                    JOIN reviews r ON g.id = r.game_id
+                    GROUP BY g.title
+                    HAVING AVG(r.rating) >= 90
+                    ORDER BY averagerating DESC
+                    """
+
+                )
+                return [
+                    GameRatingOut(title=record[0], average_rating=float(record[1]))
                     for record in db
                 ]

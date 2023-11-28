@@ -100,6 +100,7 @@ class ReviewRepository:
                     )
                     for record in db
                 ]
+
     def get_top_rated_games(self) -> List[GameRatingOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -114,9 +115,10 @@ class ReviewRepository:
                     HAVING AVG(r.rating) >= 90
                     ORDER BY averagerating DESC
                     """
-
                 )
                 return [
-                    GameRatingOut(title=record[0], average_rating=float(record[1]))
+                    GameRatingOut(
+                        title=record[0], average_rating=float(record[1])
+                    )
                     for record in db
                 ]

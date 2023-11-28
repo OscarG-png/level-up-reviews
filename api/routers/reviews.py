@@ -1,5 +1,10 @@
 from fastapi import APIRouter, Depends
-from queries.reviews import ReviewIn, ReviewOut, ReviewRepository, GameRatingOut
+from queries.reviews import (
+    ReviewIn,
+    ReviewOut,
+    ReviewRepository,
+    GameRatingOut,
+)
 from typing import List
 
 

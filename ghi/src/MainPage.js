@@ -1,7 +1,9 @@
-function MainPage() {
+import TopRatedGames from "./games/TopRatedGames";
+function MainPage({ games }) {
   return (
     <div>
-      <h1>testpage</h1>
+      <h1 className="text-center p-5">Level up reviews!</h1>
+      <TopRatedGames games={games} />
     </div>
   );
 }

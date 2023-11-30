@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from queries.games import GameIn, GameOut, GameRepository
-from typing import List
+from typing import List, Union
 
 
 router = APIRouter()
@@ -36,3 +36,15 @@ def delete_game(
     repo: GameRepository = Depends(),
 ) -> bool:
     return repo.delete(game_id)
+
+
+@router.get("/games/{game_id}", response_model=Union[GameOut, None])
+def get_one_game(
+    game_id: int,
+    response: Response,
+    repo: GameRepository = Depends(),
+) -> GameOut:
+    game = repo.get_one_game(game_id)
+    if game is None:
+        response.status_code = 404
+    return game

@@ -22,6 +22,15 @@ class GameRepository:
         old_data = games.dict()
         return GameOut(id=id, **old_data)
 
+    def record_to_gameout(self, record) -> GameOut:
+        game_dict = {
+            "id": record[0],
+            "title": record[1],
+            "release_date": record[2],
+            "esrb_rating": record[3],
+        }
+        return game_dict
+
     def delete(self, game_id: int) -> bool:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -89,3 +98,22 @@ class GameRepository:
                     )
                     for record in db
                 ]
+
+    def get_one_game(self, game_id: int) -> GameOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT id, title, release_date, esrb_rating
+                        FROM games
+                        WHERE id = %s
+                        """,
+                        [game_id]
+                    )
+                    record = result.fetchone()
+                    if record is None:
+                        return None
+                    return self.record_to_gameout(record)
+        except Exception:
+            return {"message": "Could not find account"}

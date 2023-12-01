@@ -31,6 +31,11 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def root():
+    return {"message": "This is the root path."}
+
+
 @app.get("/api/launch-details")
 def launch_details():
     return {

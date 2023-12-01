@@ -109,4 +109,36 @@ steps = [
         DROP TABLE reviews;
         """,
     ],
+    [
+        ## Create the table
+        """
+        CREATE TABLE favorites (
+            user_id INT NOT NULL,
+            game_id INT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (game_id) REFERENCES games(id),
+            PRIMARY KEY (user_id, game_id)
+        );
+        """,
+        # Drop the table
+        """
+        DROP TABLE favorites;
+        """,
+    ],
+    [
+        ## Create the table
+        """
+        CREATE TABLE wishlist (
+            user_id INT NOT NULL,
+            game_id INT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (game_id) REFERENCES games(id),
+            PRIMARY KEY (user_id, game_id)
+        );
+        """,
+        # Drop the table
+        """
+        DROP TABLE wishlist;
+        """,
+    ],
 ]

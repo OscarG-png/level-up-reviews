@@ -39,7 +39,7 @@ class GameRepository:
                     DELETE FROM games
                     WHERE id = %s
                     """,
-                    [game_id]
+                    [game_id],
                 )
                 return True
 
@@ -58,8 +58,8 @@ class GameRepository:
                         games.title,
                         games.release_date,
                         games.esrb_rating,
-                        game_id
-                    ]
+                        game_id,
+                    ],
                 )
                 return self.game_in_to_out(game_id, games)
 
@@ -109,7 +109,7 @@ class GameRepository:
                         FROM games
                         WHERE id = %s
                         """,
-                        [game_id]
+                        [game_id],
                     )
                     record = result.fetchone()
                     if record is None:

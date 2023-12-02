@@ -31,11 +31,11 @@ class WishlistRepository:
                     INSERT INTO wishlist
                     VALUES (%s, %s)
                     """,
-                    [wishlist.game_id, wishlist.user_id],
+                    [wishlist.user_id, wishlist.game_id],
                 )
 
                 return WishlistCreateOut(
-                    game_id=wishlist.game_id, user_id=wishlist.user_id
+                    user_id=wishlist.user_id, game_id=wishlist.game_id
                 )
 
     def get_wishlist_for_user(self, user_id: int) -> List[WishlistOut]:

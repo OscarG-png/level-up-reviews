@@ -4,6 +4,7 @@ from queries.reviews import (
     ReviewOut,
     ReviewRepository,
     GameRatingOut,
+    ReviewsForUserOut,
 )
 from typing import List
 
@@ -29,3 +30,8 @@ def get_all_reviews(game_id: int, repo: ReviewRepository = Depends()):
 @router.get("/games/toprated", response_model=List[GameRatingOut])
 def get_top_rated(repo: ReviewRepository = Depends()):
     return repo.get_top_rated_games()
+
+
+@router.get("/users/{user_id}/reviews", response_model=List[ReviewsForUserOut])
+def get_user_reviews(user_id: int, repo: ReviewRepository = Depends()):
+    return repo.get_reviews_for_user(user_id)

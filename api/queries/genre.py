@@ -26,10 +26,7 @@ class GenreRepository:
                         (%s, %s)
                     RETURNING id
                     """,
-                    [genre.title,
-                     genre.description
-
-                     ]
+                    [genre.title, genre.description],
                 )
                 id = result.fetchone()[0]
                 old_data = genre.dict()
@@ -47,9 +44,9 @@ class GenreRepository:
                 )
                 return [
                     GenreOut(
-                            id=record[0],
-                            title=record[1],
-                            description=record[2],
+                        id=record[0],
+                        title=record[1],
+                        description=record[2],
                     )
                     for record in db
                 ]

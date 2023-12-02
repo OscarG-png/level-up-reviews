@@ -32,7 +32,7 @@ class UserRepository:
             "username": record[1],
             "email": record[2],
             "password": record[3],
-            "profile_picture": record[4]
+            "profile_picture": record[4],
         }
         return user_dict
 
@@ -85,9 +85,9 @@ class UserRepository:
         except Exception:
             return {"message": "Could not find account"}
 
-    def create(self,
-               users: UserIn,
-               hashed_password: str) -> UserOutWithpassword:
+    def create(
+        self, users: UserIn, hashed_password: str
+    ) -> UserOutWithpassword:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -115,9 +115,9 @@ class UserRepository:
                 new_user = UserOutWithpassword(id=id, **old_data)
                 return new_user
 
-    def update(self,
-               user: UserIn,
-               user_id, hashed_password) -> UserOutWithpassword:
+    def update(
+        self, user: UserIn, user_id, hashed_password
+    ) -> UserOutWithpassword:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -140,7 +140,7 @@ class UserRepository:
                         user.email,
                         hashed_password,
                         user.profile_picture,
-                        user_id
+                        user_id,
                     ],
                 )
                 id = result.fetchone()[0]

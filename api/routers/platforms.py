@@ -8,14 +8,11 @@ router = APIRouter()
 
 @router.post("/platforms", response_model=PlatformOut)
 def create_platform(
-    platforms: PlatformIn,
-    repo: PlatformsRepository = Depends()
+    platforms: PlatformIn, repo: PlatformsRepository = Depends()
 ):
     return repo.create(platforms)
 
 
 @router.get("/platforms", response_model=List[PlatformOut])
-def get_all(
-    repo: PlatformsRepository = Depends()
-):
+def get_all(repo: PlatformsRepository = Depends()):
     return repo.get_all()

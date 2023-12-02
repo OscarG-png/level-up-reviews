@@ -32,15 +32,17 @@ class HttpError(BaseModel):
 
 
 @router.get("/api/protected", response_model=bool)
-async def get_token_protected(request: Request, account_data: dict = Depends(
-                        authenticator.get_current_account_data)):
+async def get_token_protected(
+    request: Request,
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
     return True
 
 
 @router.get("/token", response_model=AccountToken)
 async def get_token(
     request: Request,
-    user: UserOut = Depends(authenticator.try_get_current_account_data)
+    user: UserOut = Depends(authenticator.try_get_current_account_data),
 ):
     if user and authenticator.cookie_name in request.cookies:
         return {
@@ -55,7 +57,7 @@ async def create_user(
     users: UserIn,
     request: Request,
     response: Response,
-    repo: UserRepository = Depends()
+    repo: UserRepository = Depends(),
 ):
     hashed_password = authenticator.hash_password(users.password)
     user = repo.create(users, hashed_password)

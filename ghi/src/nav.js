@@ -44,7 +44,7 @@ function Nav({genre, genregames }) {
             })}
             <Sidebar.Item href="/genres/list">All Genres</Sidebar.Item>
           </Sidebar.Collapse>
-          <Sidebar.Item  icon={ImProfile}>
+          <Sidebar.Item href="profile" icon={ImProfile}>
             My Profile
           </Sidebar.Item>
           <Sidebar.Item href="login" icon={HiArrowSmRight}>

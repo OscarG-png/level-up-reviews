@@ -31,11 +31,11 @@ class FavoritesRepository:
                     INSERT INTO favorites
                     VALUES (%s, %s)
                     """,
-                    [favorites.game_id, favorites.user_id],
+                    [favorites.user_id, favorites.game_id],
                 )
 
                 return FavoritesCreateOut(
-                    game_id=favorites.game_id, user_id=favorites.user_id
+                    user_id=favorites.user_id, game_id=favorites.game_id
                 )
 
     def get_favorites_for_user(self, user_id: int) -> List[FavoritesOut]:

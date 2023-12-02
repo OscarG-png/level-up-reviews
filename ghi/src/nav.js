@@ -7,10 +7,18 @@ import { BiSolidJoystick } from "react-icons/bi";
 import { FaFire } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
 import { useNavigate } from 'react-router-dom';
+import useToken  from "@galvanize-inc/jwtdown-for-react";
 
 function Nav({genre, genregames }) {
 
     const navigate = useNavigate();
+
+    const { logout } = useToken();
+    const handleLogout = async (e) =>{
+        await logout();
+        navigate("/")
+    }
+
     const handleGenreClick = (genre_id) => {
       genregames(genre_id)
       console.log("Clicked Genre ID:", genre_id);
@@ -50,7 +58,7 @@ function Nav({genre, genregames }) {
           <Sidebar.Item href="login" icon={HiArrowSmRight}>
             Log In
           </Sidebar.Item>
-          <Sidebar.Item  icon={HiArrowSmLeft }>
+          <Sidebar.Item onClick={() => handleLogout()}  icon={HiArrowSmLeft }>
             Log out
           </Sidebar.Item>
           <Sidebar.Item href="signup"  icon={HiTable}>

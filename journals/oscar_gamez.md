@@ -13,5 +13,7 @@ Today I worked on implementing a PUT method for users. I wanted to have a way fo
 I started working on a front end component for the main page. I wanted to make a component for top rated games that could be imported into the main page. I still need to add some logic for filtering based on a certain user rating amount but currently i'm just focusing on getting the component up and running. ran into an issue where my props weren't properly being passed, turned out to it was simply how my data was being accessed and i didn't realize that data.games wasn't what i needed to be invoking in order to get my app working correctly.
 -Nov 28th 2023
 I fixed my prop issue from yesterday and created a top rated games component for the front end. Currently happy with the look of it but i'm going to have to come back and add functionality to it, like clicking on an image will take a user to that games detail page, when we finish the games detail page.
--Nov 29th 202023
+-Nov 29th 2023
 Today I decided to try out implementing unit tests in our project, was pretty straight forward to get going. I created a test for getting all users and for creating a game
+-Dec 1 2023
+Today I got the backend fully deployed. After getting that completed I took it upon myself to populate the database with about 25 games. We haven't looked at implementing a 3rd party API to add to our database and I figured it'd be best to populate our own so we have data to manipulate for the front end.

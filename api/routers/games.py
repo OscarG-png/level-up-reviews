@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response
 from queries.games import GameIn, GameOut, GameRepository
-from typing import List, Union
+from typing import Union
 
 
 router = APIRouter()
@@ -11,9 +11,14 @@ def create_game(games: GameIn, repo: GameRepository = Depends()):
     return repo.create(games)
 
 
-@router.get("/games", response_model=List[GameOut])
-def get_all(repo: GameRepository = Depends()):
-    return repo.get_all()
+@router.get("/games", response_model=dict)
+def get_all(
+    repo: GameRepository = Depends()
+):
+    games = repo.get_all()
+    return {
+        "games": games
+    }
 
 
 @router.put("/games/{game_id}", response_model=GameOut)

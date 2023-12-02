@@ -20,11 +20,13 @@ def test_create_game():
     expected = {
         "id": 0,
         "title": "string",
+        "game_picture": "string",
         "release_date": "2023-11-30",
         "esrb_rating": "string"
     }
     json = {
         "title": "string",
+        "game_picture": "string",
         "release_date": "2023-11-30",
         "esrb_rating": "string"
     }

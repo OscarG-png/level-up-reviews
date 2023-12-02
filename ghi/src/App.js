@@ -11,80 +11,98 @@ import Nav from "./nav.js";
 import GenreList from "./genres/genrelist.js";
 import GenreGames from "./genres/genregames.js";
 
-
-
-
 function App() {
-  const baseUrl = `${process.env.REACT_APP_API_HOST}`
+  const baseUrl = `${process.env.REACT_APP_API_HOST}`;
   const { fetchWithCookie } = useToken();
   const [games, setGames] = useState([]);
-  const [userData, setUserData] = useState({ user: {
-    email: '',
-    id: 0,
-    profile_picture: '',
-    username: '',
-  }});
+  const [userData, setUserData] = useState({
+    user: {
+      email: "",
+      id: 0,
+      profile_picture: "",
+      username: "",
+    },
+  });
 
   async function getGames() {
     const gamesUrl = "http://localhost:8000/games";
     const response = await fetch(gamesUrl);
     if (response.ok) {
       const data = await response.json();
-      setGames(data);
+      setGames(data.games);
     }
   }
-  async function fetchData () {
-      try {
-        const data = await fetchWithCookie(
-        "http://localhost:8000/token"
-        );
-        setUserData(data);
-      } catch (error) {
-        console.error('Error fetching the user data:', error);
-      }
-    };
+  async function fetchData() {
+    try {
+      const data = await fetchWithCookie("http://localhost:8000/token");
+      setUserData(data);
+    } catch (error) {
+      console.error("Error fetching the user data:", error);
+    }
+  }
   useEffect(() => {
     getGames();
     fetchData();
   }, []);
 
-  const [genre, setGenres] = useState([])
+  const [genre, setGenres] = useState([]);
   async function getGenres() {
-    const response = await fetch("http://localhost:8000/genre")
-    if (response.ok){
-      const data = await response.json()
-      setGenres(data)
+    const response = await fetch("http://localhost:8000/genre");
+    if (response.ok) {
+      const data = await response.json();
+      setGenres(data);
     }
   }
   useEffect(() => {
-    getGenres()
-  }, [])
+    getGenres();
+  }, []);
 
-  const [genregames, setGenresGames] = useState([])
+  const [genregames, setGenresGames] = useState([]);
 
   async function getGenresGames(genre_id) {
-    const response = await fetch(`http://localhost:8000/genres/${genre_id}/games`)
-    if (response.ok){
-      const data = await response.json()
-      setGenresGames(data)
+    const response = await fetch(
+      `http://localhost:8000/genres/${genre_id}/games`
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setGenresGames(data);
     }
   }
   useEffect(() => {
     const defaultGenreId = 1;
-    getGenresGames(defaultGenreId)
-  }, [])
+    getGenresGames(defaultGenreId);
+  }, []);
 
   return (
     <BrowserRouter>
-      <AuthProvider baseUrl={baseUrl} >
+      <AuthProvider baseUrl={baseUrl}>
         <Nav genre={genre} genregames={getGenresGames} />
         <Routes>
-          <Route index path="/" element={<MainPage games={games} genre={genre} genregames={getGenresGames}  />} />
+          <Route
+            index
+            path="/"
+            element={
+              <MainPage
+                games={games}
+                genre={genre}
+                genregames={getGenresGames}
+              />
+            }
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/profile" element={<UserProfile userData={userData}/>} />
-          <Route path="/genres/list" element={<GenreList genre={genre} genregames={getGenresGames} />}/>
-          <Route path="/genres/:genre_id/games" element={<GenreGames  genre={genre} genregames={genregames} />}/>
+          <Route
+            path="/profile"
+            element={<UserProfile userData={userData} />}
+          />
+          <Route
+            path="/genres/list"
+            element={<GenreList genre={genre} genregames={getGenresGames} />}
+          />
+          <Route
+            path="/genres/:genre_id/games"
+            element={<GenreGames genre={genre} genregames={genregames} />}
+          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

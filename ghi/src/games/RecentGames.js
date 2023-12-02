@@ -19,11 +19,7 @@ function RecentGames({ games }) {
         <Carousel slideInterval={4000}>
           {filteredGames.map((game) => {
             return (
-              <img
-                key={game.id}
-                src="https://i.redd.it/lyyzakx0o59b1.png"
-                alt={game.title}
-              />
+              <img key={game.id} src={game.game_picture} alt={game.title} />
             );
           })}
         </Carousel>

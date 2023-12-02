@@ -6,6 +6,7 @@ from typing import List
 
 class GameIn(BaseModel):
     title: str
+    game_picture: str
     release_date: date
     esrb_rating: str
 
@@ -13,6 +14,7 @@ class GameIn(BaseModel):
 class GameOut(BaseModel):
     id: int
     title: str
+    game_picture: str
     release_date: date
     esrb_rating: str
 
@@ -26,8 +28,9 @@ class GameRepository:
         game_dict = {
             "id": record[0],
             "title": record[1],
-            "release_date": record[2],
-            "esrb_rating": record[3],
+            "game_picture": record[2],
+            "release_date": record[3],
+            "esrb_rating": record[4],
         }
         return game_dict
 
@@ -50,12 +53,14 @@ class GameRepository:
                     """
                     UPDATE games
                     SET title = %s
+                     , game_picture = %s
                      , release_date = %s
                      , esrb_rating = %s
                     WHERE id = %s
                     """,
                     [
                         games.title,
+                        games.game_picture,
                         games.release_date,
                         games.esrb_rating,
                         game_id,
@@ -69,12 +74,16 @@ class GameRepository:
                 result = db.execute(
                     """
                     INSERT INTO games
-                        (title, release_date, esrb_rating)
+                        (title, game_picture, release_date, esrb_rating)
                     VALUES
-                        (%s, %s, %s)
+                        (%s, %s, %s, %s)
                     RETURNING id
                     """,
-                    [games.title, games.release_date, games.esrb_rating],
+                    [games.title,
+                     games.game_picture,
+                     games.release_date,
+                     games.esrb_rating
+                     ],
                 )
                 id = result.fetchone()[0]
                 return self.game_in_to_out(id, games)
@@ -84,20 +93,18 @@ class GameRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT id, title, release_date, esrb_rating
+                    SELECT id, title, game_picture, release_date, esrb_rating
                     FROM games
                     ORDER BY title
                     """
                 )
-                return [
-                    GameOut(
-                        id=record[0],
-                        title=record[1],
-                        release_date=record[2],
-                        esrb_rating=record[3],
-                    )
-                    for record in db
-                ]
+                games = []
+                rows = db.fetchall()
+                for row in rows:
+                    game = self.record_to_gameout(row)
+                    games.append(game)
+                print("games from get all:", games)
+                return games
 
     def get_one_game(self, game_id: int) -> GameOut:
         try:
@@ -105,7 +112,11 @@ class GameRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, title, release_date, esrb_rating
+                        SELECT id
+                        , title
+                        , game_picture
+                        , release_date
+                        , esrb_rating
                         FROM games
                         WHERE id = %s
                         """,
@@ -116,4 +127,4 @@ class GameRepository:
                         return None
                     return self.record_to_gameout(record)
         except Exception:
-            return {"message": "Could not find account"}
+            return {"message": "Could not find game"}

@@ -50,7 +50,7 @@ function App() {
     const response = await fetch("http://localhost:8000/genre");
     if (response.ok) {
       const data = await response.json();
-      setGenres(data);
+      setGenres(data.genres);
     }
   }
   useEffect(() => {

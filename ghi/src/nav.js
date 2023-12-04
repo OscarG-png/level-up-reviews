@@ -37,7 +37,9 @@ function Nav({ genre, genregames }) {
             <Sidebar.Item href="/" icon={HiChartBar}>
               Level Up Reviews
             </Sidebar.Item>
-            <Sidebar.Item icon={FaFire}>New Releases</Sidebar.Item>
+            <Sidebar.Item href="/games/recent" icon={FaFire}>
+              New Releases
+            </Sidebar.Item>
             <Sidebar.Item icon={HiChevronDoubleUp}>Top Rated</Sidebar.Item>
             <Sidebar.Collapse icon={BiSolidJoystick} label="Platforms">
               <Sidebar.Item>Xbox</Sidebar.Item>

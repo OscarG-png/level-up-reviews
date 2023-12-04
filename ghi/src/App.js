@@ -10,6 +10,7 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import Nav from "./nav.js";
 import GenreList from "./genres/genrelist.js";
 import GenreGames from "./genres/genregames.js";
+import RecentPage from "./games/RecentPage.js";
 
 function App() {
   const baseUrl = `${process.env.REACT_APP_API_HOST}`;
@@ -95,6 +96,7 @@ function App() {
             path="/profile"
             element={<UserProfile userData={userData} />}
           />
+          <Route path="/games/recent" element={<RecentPage games={games} />} />
           <Route
             path="/genres/list"
             element={<GenreList genre={genre} genregames={getGenresGames} />}

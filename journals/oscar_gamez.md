@@ -17,3 +17,5 @@ I fixed my prop issue from yesterday and created a top rated games component for
 Today I decided to try out implementing unit tests in our project, was pretty straight forward to get going. I created a test for getting all users and for creating a game
 -Dec 1 2023
 Today I got the backend fully deployed. After getting that completed I took it upon myself to populate the database with about 25 games. We haven't looked at implementing a 3rd party API to add to our database and I figured it'd be best to populate our own so we have data to manipulate for the front end.
+-Dec 4 2023
+Today I created a new migration for our databse that adds genres to our database to be used for our games on our frontend. I also created a front end page that takes the user to a recent games page. This is useful for users that navigate away from the main page but might want to look at recent games that are released.

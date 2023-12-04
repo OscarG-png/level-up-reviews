@@ -10,7 +10,7 @@ function RecentGames({ games }) {
     let daysDifference = Math.abs(
       Math.floor(timeDifference / (1000 * 60 * 60 * 24))
     );
-    return daysDifference <= 30;
+    return daysDifference <= 60;
   });
   return (
     <>

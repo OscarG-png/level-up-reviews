@@ -42,11 +42,13 @@ class GenreRepository:
                     ORDER BY title
                     """
                 )
-                return [
+                records = db.fetchall()
+                genres = [
                     GenreOut(
                         id=record[0],
                         title=record[1],
                         description=record[2],
                     )
-                    for record in db
+                    for record in records
                 ]
+                return genres

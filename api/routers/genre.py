@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from queries.genre import GenreIn, GenreOut, GenreRepository
-from typing import List
 
 
 router = APIRouter()
@@ -11,6 +10,9 @@ def create_genre(genre: GenreIn, repo: GenreRepository = Depends()):
     return repo.create(genre)
 
 
-@router.get("/genre", response_model=List[GenreOut])
+@router.get("/genre", response_model=dict)
 def get_all(repo: GenreRepository = Depends()):
-    return repo.get_all()
+    genres = repo.get_all()
+    return {
+        "genres": genres
+    }

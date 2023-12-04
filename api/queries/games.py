@@ -103,7 +103,6 @@ class GameRepository:
                 for row in rows:
                     game = self.record_to_gameout(row)
                     games.append(game)
-                print("games from get all:", games)
                 return games
 
     def get_one_game(self, game_id: int) -> GameOut:

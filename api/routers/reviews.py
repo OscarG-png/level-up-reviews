@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response, Request
 from queries.reviews import (
     ReviewIn,
     ReviewOut,
@@ -20,6 +20,18 @@ def create(reviews: ReviewIn, repo: ReviewRepository = Depends()):
 @router.get("/reviews", response_model=List[ReviewOut])
 def get_all(repo: ReviewRepository = Depends()):
     return repo.get_all()
+
+
+@router.put("/reviews/{review_id}", response_model=ReviewOut)
+async def update_review(
+    review_id: int,
+    review: ReviewIn,
+    request: Request,
+    response: Response,
+    repo: ReviewRepository = Depends(),
+):
+    review = repo.update_review(review_id, review)
+    return review
 
 
 @router.get("/games/{game_id}/reviews", response_model=List[ReviewOut])

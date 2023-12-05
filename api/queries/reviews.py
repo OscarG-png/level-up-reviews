@@ -88,6 +88,43 @@ class ReviewRepository:
                     for record in db
                 ]
 
+    def update_review(self, review_id: int, review: ReviewIn) -> ReviewOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    UPDATE reviews
+                    SET title=%s,
+                    content=%s,
+                    review_date=%s,
+                    rating=%s,
+                    game_id=%s,
+                    user_id=%s
+                    WHERE id = %s
+                    RETURNING
+                    id,
+                    title,
+                    content,
+                    review_date,
+                    rating,
+                    game_id,
+                    user_id
+                    """,
+                    [
+                        review.title,
+                        review.content,
+                        review.review_date,
+                        review.rating,
+                        review.game_id,
+                        review.user_id,
+                        review_id
+                    ],
+                )
+                id = result.fetchone()[0]
+                old_data = review.dict()
+                new_review = ReviewOut(id=id, **old_data)
+                return new_review
+
     def get_all_for_game(self, game_id: int) -> List[ReviewOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:

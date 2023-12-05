@@ -1,4 +1,4 @@
-## November 17, 2023 - End of Week
+## November 17, 2023
 
 
 This week, I worked on the following tasks:
@@ -19,3 +19,24 @@ Towards the end of the week, I focused on creating more tables, specifcally the 
 This last section is where I faced a bit of struggle, trying to create the proper queries to grab the relevant information from the DBs was tough initially, luckily, some learn resources and the recent lectures on inner joins helped get this done. Moreso, I ran into failed pipelines during merge requests due to formatting issues but were resolved rather quickly using black. Other than this, the week went rather smoothly.
 
 
+## November 22, 2023 - End of Week
+
+This week, I worked on the following tasks:
+
+    *I created a game_genres junction table + endpoinnts
+
+Being that it was a 3 day week, I didn't get as much done as the previous check, however, I primarily worked on a game_genres junction table which references games and genres via their id. This allows us to create a relationship between many genres and many games. I also worked on the queries for this table and the relevant endpoints, a create and a get all. We will be able to use these endpoints to create genre-game relationships and populate our list genres page.
+
+
+
+## December 04, 2023
+
+Last week and today, I worked on the following tasks:
+
+    *creating get all reviews endpoint, top rated games endpoint, favorite game + wishlist backend, and began on the user profile and the game details pages.
+
+Last week and the day of this journal entry, I worked on creating a couple of more endpoints that we needed, particularly a get all reviews endpoint that I needed to get all the reviews of a particular user and the revies of a particular game. I also worked on a top rated games endpoint. Using SQL, I was able to write a query that grabbed all games which had an average rating score of 90+, we plan on using this endpoint to populate or top rated games page. In addition to this, I worked on a bit more backend, I created the favorite games table and the wishlist table, as well as the necessary queries and endpoints. These two functionalities are relatively similar as they both reference a game and a user. We will use both of these API's to list users favorite games and their wishlist via their profile. We will also use them to make POST requests via the game details page so a user can add the game to a list.
+
+For the front-end, I worked between the user profile and the game details page. I worked on getting the the user information to populate a portion of the page, and also use the get all reviews endpoint to get all the reviews for the logged in user and display it on the page. In addition, I also made use of the favorites and wishlist API's to populate the user profile's favorites and wishlist sections. I'm currently working on the edit functinality. This has been the most troubling since making a PUT request for our current user info. requires a password, which I don't know how to access currently. I will look towards my team to help problem solve this.
+
+In addition to the user profile, I worked on the game details page, I used the get game endpoint to populate the page with some game information, I also uses the a reviews endpoint which takes the game_id as a parameter to display all the reviews for a specific game. I am currently working on the favorite + wishlist functionality so when a user clicks on either/or, it is added to their favorites/wishlist. 

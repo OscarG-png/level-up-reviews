@@ -9,6 +9,7 @@ import UserProfile from "./users/UserProfile.js";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import Nav from "./nav.js";
 import GenreList from "./genres/genrelist.js";
+import CreateReview from "./reviews/CreateReviews.js";
 import GenreGames from "./genres/genregames.js";
 import RecentPage from "./games/RecentPage.js";
 import AllGames from "./games/Allgames.js";
@@ -59,6 +60,23 @@ function App() {
     getGenres();
   }, []);
 
+  const [reviews, setReviews] = useState([]);
+
+  async function getReviews() {
+      const reviewUrl = "http://localhost:8000/reviews/";
+
+      const response = await fetch(reviewUrl);
+
+      if (response.ok) {
+          const data = await response.json();
+          setReviews(data);
+    }
+  }
+
+  useEffect(() => {
+    getReviews();
+  }, []);
+
   const [genregames, setGenresGames] = useState([]);
 
   async function getGenresGames(genre_id) {
@@ -93,6 +111,7 @@ function App() {
           />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="reviews/create" element={<CreateReview reviews={reviews} />}/>
           <Route
             path="/profile"
             element={<UserProfile userData={userData} />}

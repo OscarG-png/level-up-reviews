@@ -17,3 +17,12 @@ Creating a table for the reviews and creating the POST and GET request for revie
 I also helped Oscar with doing the sign up page on the front-end in react. I assisted with some minor debugging with him and a lot of things associated with authentication. I also worked on the login page. There is a blocker with trying to figure out how to redirect from the page.
 
 Today, I learned how that I was redirecting to localhost:3000 instead of getting the token for localhost:8000 for my login page. I also learned about the navigation to redirect utilizing useNavigate library to the homepage. It was very useful.
+
+
+## December 1, 2023
+
+This week I worked on creating the game details. I have done some merge requests and merges of the other team members.
+
+I worked on the component for front-end for the create reviews page and tried to start doing other components.
+
+I learned today how to redirect some tokens and make sure that it's authenticated.

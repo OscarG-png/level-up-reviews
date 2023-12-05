@@ -34,6 +34,18 @@ class ReviewsForUserOut(BaseModel):
     game_title: str
 
 
+class ReviewsForGame(BaseModel):
+    id: int
+    title: str
+    content: str
+    review_date: date
+    rating: int
+    game_id: int
+    user_id: int
+    username: str
+    profile_picture: str
+
+
 class GameRatingOut(BaseModel):
     title: str
     average_rating: float
@@ -88,56 +100,21 @@ class ReviewRepository:
                     for record in db
                 ]
 
-    def update_review(self, review_id: int, review: ReviewIn) -> ReviewOut:
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                result = db.execute(
-                    """
-                    UPDATE reviews
-                    SET title=%s,
-                    content=%s,
-                    review_date=%s,
-                    rating=%s,
-                    game_id=%s,
-                    user_id=%s
-                    WHERE id = %s
-                    RETURNING
-                    id,
-                    title,
-                    content,
-                    review_date,
-                    rating,
-                    game_id,
-                    user_id
-                    """,
-                    [
-                        review.title,
-                        review.content,
-                        review.review_date,
-                        review.rating,
-                        review.game_id,
-                        review.user_id,
-                        review_id
-                    ],
-                )
-                id = result.fetchone()[0]
-                old_data = review.dict()
-                new_review = ReviewOut(id=id, **old_data)
-                return new_review
-
-    def get_all_for_game(self, game_id: int) -> List[ReviewOut]:
+    def get_all_for_game(self, game_id: int) -> List[ReviewsForGame]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT *
-                    FROM reviews
-                    WHERE game_id = %s
+                SELECT r.id, r.title, r.content, r.review_date,
+                r.rating, r.game_id, r.user_id, u.username, u.profile_picture
+                FROM reviews r
+                JOIN users u ON r.user_id = u.id
+                WHERE r.game_id = %s
                     """,
                     [game_id],
                 )
                 return [
-                    ReviewOut(
+                    ReviewsForGame(
                         id=record[0],
                         title=record[1],
                         content=record[2],
@@ -145,6 +122,8 @@ class ReviewRepository:
                         rating=record[4],
                         game_id=record[5],
                         user_id=record[6],
+                        username=record[7],
+                        profile_picture=record[8],
                     )
                     for record in db
                 ]

@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, Response, Request
+from fastapi import APIRouter, Depends
 from queries.reviews import (
     ReviewIn,
     ReviewOut,
     ReviewRepository,
     GameRatingOut,
     ReviewsForUserOut,
+    ReviewsForGame,
 )
 from typing import List
 
@@ -22,19 +23,7 @@ def get_all(repo: ReviewRepository = Depends()):
     return repo.get_all()
 
 
-@router.put("/reviews/{review_id}", response_model=ReviewOut)
-async def update_review(
-    review_id: int,
-    review: ReviewIn,
-    request: Request,
-    response: Response,
-    repo: ReviewRepository = Depends(),
-):
-    review = repo.update_review(review_id, review)
-    return review
-
-
-@router.get("/games/{game_id}/reviews", response_model=List[ReviewOut])
+@router.get("/games/{game_id}/reviews", response_model=List[ReviewsForGame])
 def get_all_reviews(game_id: int, repo: ReviewRepository = Depends()):
     return repo.get_all_for_game(game_id)
 

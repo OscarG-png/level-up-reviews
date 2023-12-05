@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Card, Button } from 'flowbite-react';
+import { Link } from 'react-router-dom'
 function GenreGames({ genregames }) {
   return (
     <div className="main">
@@ -39,7 +40,13 @@ function GenreGames({ genregames }) {
                             />
                             </svg>
                         </Button>
-                  </Card>
+                         <Link to={`/games/${game.game_id}`}>
+                          <Button>
+                            See Details
+
+                          </Button>
+                        </Link>
+                       </Card>
                 ))}
               </tbody>
             </table>

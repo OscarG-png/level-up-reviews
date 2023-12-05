@@ -9,26 +9,26 @@ const [userWishlist, setUserWishlist] = useState([]);
 
 
 async function fetchReviews () {
-    const response = await fetch(`http://localhost:8000/users/${userData.user.id}/reviews`);
-    if (response.ok) {
-        const reviewsData = await response.json();
+    const reviewsResponse = await fetch(`http://localhost:8000/users/${userData.user.id}/reviews`);
+    if (reviewsResponse.ok) {
+        const reviewsData = await reviewsResponse.json();
         setUserReviews(reviewsData)
         }
   }
   async function fetchFavorites () {
-    const response2 = await fetch(`http://localhost:8000/users/${userData.user.id}/favorites`);
+    const favoritesResponse = await fetch(`http://localhost:8000/users/${userData.user.id}/favorites`);
 
-    if (response2.ok) {
-        const favoritesData = await response2.json();
+    if (favoritesResponse.ok) {
+        const favoritesData = await favoritesResponse.json();
         setUserFavorites(favoritesData)
         console.log("ffffffffffaves", favoritesData)
         }
   }
   async function fetchWishlist () {
-    const response3 = await fetch(`http://localhost:8000/users/${userData.user.id}/wishlist`);
+    const wishListResponse = await fetch(`http://localhost:8000/users/${userData.user.id}/wishlist`);
 
-    if (response3.ok) {
-        const wishlistData = await response3.json();
+    if (wishListResponse.ok) {
+        const wishlistData = await wishListResponse.json();
         setUserWishlist(wishlistData)
         console.log("wwwwwwwwwwwwwish", wishlistData)
         }

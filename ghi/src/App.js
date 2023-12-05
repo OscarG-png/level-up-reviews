@@ -11,6 +11,7 @@ import Nav from "./nav.js";
 import GenreList from "./genres/genrelist.js";
 import CreateReview from "./reviews/CreateReviews.js";
 import GenreGames from "./genres/genregames.js";
+import GameDetails from "./games/GameDetails.js";
 import RecentPage from "./games/RecentPage.js";
 import AllGames from "./games/Allgames.js";
 
@@ -111,6 +112,7 @@ function App() {
           />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/games/:game_id" element={<GameDetails userData={userData}/>} />
           <Route path="reviews/create" element={<CreateReview reviews={reviews} />}/>
           <Route
             path="/profile"

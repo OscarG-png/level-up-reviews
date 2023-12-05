@@ -11,6 +11,7 @@ import Nav from "./nav.js";
 import GenreList from "./genres/genrelist.js";
 import GenreGames from "./genres/genregames.js";
 import RecentPage from "./games/RecentPage.js";
+import AllGames from "./games/Allgames.js";
 
 function App() {
   const baseUrl = `${process.env.REACT_APP_API_HOST}`;
@@ -96,6 +97,7 @@ function App() {
             path="/profile"
             element={<UserProfile userData={userData} />}
           />
+          <Route path="/games/all" element={<AllGames games={games} />} />
           <Route path="/games/recent" element={<RecentPage games={games} />} />
           <Route
             path="/genres/list"

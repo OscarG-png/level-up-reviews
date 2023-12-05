@@ -8,6 +8,7 @@ import {
   HiChartBar,
   HiTable,
 } from "react-icons/hi";
+import { GiAbstract050 } from "react-icons/gi";
 import { MdOutlineGridView } from "react-icons/md";
 import { BiSolidJoystick } from "react-icons/bi";
 import { FaFire } from "react-icons/fa";
@@ -36,6 +37,9 @@ function Nav({ genre, genregames }) {
           <Sidebar.ItemGroup>
             <Sidebar.Item href="/" icon={HiChartBar}>
               Level Up Reviews
+            </Sidebar.Item>
+            <Sidebar.Item href="/games/all" icon={GiAbstract050}>
+              All Games
             </Sidebar.Item>
             <Sidebar.Item href="/games/recent" icon={FaFire}>
               New Releases

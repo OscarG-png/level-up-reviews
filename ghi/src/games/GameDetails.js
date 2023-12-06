@@ -146,7 +146,8 @@ return (
               onClick={addToFavorites}>
                 {favorite ? 'Already in Favorites' : 'Add to Favorites'}
               </Button>
-              <Link to={`/games/${game_id}/reviews`}>
+              <Link to={{
+                pathname: `/games/${game_id}/reviews`}}>
                 <Button>
                             Create Review
                </Button>

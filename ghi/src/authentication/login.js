@@ -16,6 +16,9 @@ const LoginForm = () => {
     const { value } = e.target;
     setPassword(value);
   }
+  const navigateToSignup = () => {
+    navigate("/signup");
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     login(username, password);
@@ -70,14 +73,6 @@ const LoginForm = () => {
               >
                 Password
               </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
             </div>
             <div className="mt-2">
               <input
@@ -105,12 +100,12 @@ const LoginForm = () => {
 
         <p className="mt-10 text-center text-sm text-gray-500">
           Not a member?{" "}
-          <a
-            href="#"
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          <button
+            onClick={navigateToSignup}
+          className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            BECOME ONE
-          </a>
+          BECOME ONE
+        </button>
         </p>
       </div>
     </div>

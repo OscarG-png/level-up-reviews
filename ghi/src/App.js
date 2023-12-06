@@ -78,6 +78,7 @@ function App() {
     getReviews();
   }, []);
 
+
   const [genregames, setGenresGames] = useState([]);
 
   async function getGenresGames(genre_id) {
@@ -113,7 +114,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/games/:game_id" element={<GameDetails userData={userData}/>} />
-          <Route path="reviews/create" element={<CreateReview reviews={reviews} />}/>
+          <Route path="/games/:game_id/reviews" element={<CreateReview reviews={reviews} userData={userData}/>}/>
           <Route
             path="/profile"
             element={<UserProfile userData={userData} />}

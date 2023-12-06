@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useParams} from 'react-router-dom'
+import {useParams, Link } from 'react-router-dom'
 import { Card, Button, Avatar} from "flowbite-react";
 
 
@@ -145,8 +145,12 @@ return (
               hover="bg-blue-700 text-white"
               onClick={addToFavorites}>
                 {favorite ? 'Already in Favorites' : 'Add to Favorites'}
-
               </Button>
+              <Link to={`/games/${game_id}/reviews`}>
+                <Button>
+                            Create Review
+               </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -179,6 +183,7 @@ return (
                 <p>No reviews available</p>
               )}
             </div>
+
           </div>
         </Card>
       </div>

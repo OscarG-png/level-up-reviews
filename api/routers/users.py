@@ -8,11 +8,12 @@ from queries.users import (
     UserIn,
     UserOut,
     UserRepository,
+    UserInUpdate,
 )
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
 from pydantic import BaseModel
-from typing import List
+from typing import Optional
 
 
 router = APIRouter()
@@ -20,7 +21,7 @@ router = APIRouter()
 
 class AccountForm(BaseModel):
     username: str
-    password: str
+    password: Optional[str]
 
 
 class AccountToken(Token):
@@ -66,11 +67,14 @@ async def create_user(
     return AccountToken(user=user, **token.dict())
 
 
-@router.get("/users", response_model=List[UserOut])
+@router.get("/users", response_model=dict)
 def get_all_users(
     repo: UserRepository = Depends(),
 ):
-    return repo.get_all_users()
+    users = repo.get_all_users()
+    return {
+        "users": users
+    }
 
 
 @router.get("/user/{user_id}", response_model=UserOut)
@@ -80,16 +84,13 @@ def get_a_user(
     return repo.get()
 
 
-@router.put("/users/{user_id}", response_model=AccountToken)
+@router.put("/users/{user_id}", response_model=UserOut)
 async def update_user(
     user_id: int,
-    user: UserIn,
+    user: UserInUpdate,
     request: Request,
     response: Response,
     repo: UserRepository = Depends(),
 ):
-    hashed_password = authenticator.hash_password(user.password)
-    user = repo.update(user, user_id, hashed_password)
-    form = AccountForm(username=user.username, password=user.password)
-    token = await authenticator.login(response, request, form, repo)
-    return AccountToken(user=user, **token.dict())
+    user = repo.update(user, user_id)
+    return user

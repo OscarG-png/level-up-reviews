@@ -3,10 +3,7 @@ from queries.game_platforms import (
     GamePlatformIn,
     GamePlatformOut,
     GamePlatformRepository,
-    PlatformsForGamesOut,
 )
-from typing import List
-
 
 router = APIRouter()
 
@@ -18,24 +15,33 @@ def create_game(
     return repo.create(games)
 
 
-@router.get("/games_platforms", response_model=List[GamePlatformOut])
+@router.get("/games_platforms", response_model=dict)
 def get_all(repo: GamePlatformRepository = Depends()):
-    return repo.get_all()
+    platforms = repo.get_all()
+    return {
+        "platforms": platforms
+    }
 
 
 @router.get(
-    "/games/{game_id}/platforms", response_model=List[PlatformsForGamesOut]
+    "/games/{game_id}/platforms", response_model=dict
 )
 def get_platforms_for_game(
     game_id: int, repo: GamePlatformRepository = Depends()
 ):
-    return repo.get_platforms_for_game(game_id)
+    platform_games = repo.get_platforms_for_game(game_id)
+    return {
+        "platform_games": platform_games
+    }
 
 
 @router.get(
-    "/platforms/{platform_id}/games", response_model=List[PlatformsForGamesOut]
+    "/platforms/{platform_id}/games", response_model=dict
 )
 def get_games_for_platform(
     platform_id: int, repo: GamePlatformRepository = Depends()
 ):
-    return repo.get_games_for_platform(platform_id)
+    games_platforms = repo.get_games_for_platform(platform_id)
+    return {
+        "games_platforms": games_platforms
+    }

@@ -4,8 +4,6 @@ from queries.reviews import (
     ReviewOut,
     ReviewRepository,
     GameRatingOut,
-    ReviewsForUserOut,
-    ReviewsForGame,
 )
 from typing import List
 
@@ -18,14 +16,20 @@ def create(reviews: ReviewIn, repo: ReviewRepository = Depends()):
     return repo.create(reviews)
 
 
-@router.get("/reviews", response_model=List[ReviewOut])
+@router.get("/reviews", response_model=dict)
 def get_all(repo: ReviewRepository = Depends()):
-    return repo.get_all()
+    reviews = repo.get_all()
+    return {
+        "reviews": reviews
+    }
 
 
-@router.get("/games/{game_id}/reviews", response_model=List[ReviewsForGame])
+@router.get("/games/{game_id}/reviews", response_model=dict)
 def get_all_reviews(game_id: int, repo: ReviewRepository = Depends()):
-    return repo.get_all_for_game(game_id)
+    reviews = repo.get_all_for_game(game_id)
+    return {
+        "reviews": reviews
+    }
 
 
 @router.get("/games/toprated", response_model=List[GameRatingOut])
@@ -33,6 +37,9 @@ def get_top_rated(repo: ReviewRepository = Depends()):
     return repo.get_top_rated_games()
 
 
-@router.get("/users/{user_id}/reviews", response_model=List[ReviewsForUserOut])
+@router.get("/users/{user_id}/reviews", response_model=dict)
 def get_user_reviews(user_id: int, repo: ReviewRepository = Depends()):
-    return repo.get_reviews_for_user(user_id)
+    user_reviews = repo.get_reviews_for_user(user_id)
+    return {
+        "user_reviews": user_reviews
+    }

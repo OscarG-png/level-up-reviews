@@ -45,10 +45,6 @@ function App() {
       console.error("Error fetching the user data:", error);
     }
   }
-  useEffect(() => {
-    getGames();
-    fetchData();
-  }, []);
 
   const [genre, setGenres] = useState([]);
   async function getGenres() {
@@ -58,12 +54,8 @@ function App() {
       setGenres(data.genres);
     }
   }
-  useEffect(() => {
-    getGenres();
-  }, []);
 
   const [reviews, setReviews] = useState([]);
-
   async function getReviews() {
       const reviewUrl = "http://localhost:8000/reviews/";
 
@@ -71,14 +63,9 @@ function App() {
 
       if (response.ok) {
           const data = await response.json();
-          setReviews(data);
+          setReviews(data.reviews);
     }
   }
-
-  useEffect(() => {
-    getReviews();
-  }, []);
-
 
   const [genregames, setGenresGames] = useState([]);
 
@@ -92,6 +79,10 @@ function App() {
   useEffect(() => {
     const defaultGenreId = 1;
     getGenresGames(defaultGenreId);
+    getReviews();
+    getGenres();
+    getGames();
+    fetchData();
   }, []);
 
   return (

@@ -12,7 +12,7 @@ async function fetchReviews () {
     const reviewsResponse = await fetch(`http://localhost:8000/users/${userData.user.id}/reviews`);
     if (reviewsResponse.ok) {
         const reviewsData = await reviewsResponse.json();
-        setUserReviews(reviewsData)
+        setUserReviews(reviewsData.user_reviews)
         }
   }
   async function fetchFavorites () {
@@ -20,8 +20,7 @@ async function fetchReviews () {
 
     if (favoritesResponse.ok) {
         const favoritesData = await favoritesResponse.json();
-        setUserFavorites(favoritesData)
-        console.log("ffffffffffaves", favoritesData)
+        setUserFavorites(favoritesData.favorites)
         }
   }
   async function fetchWishlist () {
@@ -29,8 +28,7 @@ async function fetchReviews () {
 
     if (wishListResponse.ok) {
         const wishlistData = await wishListResponse.json();
-        setUserWishlist(wishlistData)
-        console.log("wwwwwwwwwwwwwish", wishlistData)
+        setUserWishlist(wishlistData.user_wishlist)
         }
   }
 

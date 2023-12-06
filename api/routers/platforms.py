@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from queries.platforms import PlatformIn, PlatformOut, PlatformsRepository
-from typing import List
 
 
 router = APIRouter()
@@ -13,6 +12,9 @@ def create_platform(
     return repo.create(platforms)
 
 
-@router.get("/platforms", response_model=List[PlatformOut])
+@router.get("/platforms", response_model=dict)
 def get_all(repo: PlatformsRepository = Depends()):
-    return repo.get_all()
+    platforms = repo.get_all()
+    return {
+        "platforms": platforms
+    }

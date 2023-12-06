@@ -15,4 +15,4 @@ def test_get_users():
     response = client.get("/users")
     app.dependency_overrides = {}
     assert response.status_code == 200
-    assert response.json() == []
+    assert response.json() == {"users": []}

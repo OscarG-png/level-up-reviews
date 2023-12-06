@@ -23,7 +23,7 @@ async function fetchGameReviews() {
     const response = await fetch(`http://localhost:8000/games/${game_id}/reviews`)
     if (response.ok) {
         const data = await response.json();
-        setGameReviews(data)
+        setGameReviews(data.reviews)
     }
 }
 const ratingColor = (rating) => {
@@ -72,7 +72,7 @@ async function checkFavorite() {
   if (response.ok) {
     const favoritesList = await response.json();
     let isFavorite = false
-    for (let favoriteGame of favoritesList) {
+    for (let favoriteGame of favoritesList.favorites) {
       if (favoriteGame.game_id.toString() === game_id.toString()) {
         isFavorite = true;
         break
@@ -86,7 +86,7 @@ async function checkWishlist() {
   if (response.ok) {
     const wishlistList = await response.json();
     let isWishlist = false
-    for (let wishlistGame of wishlistList) {
+    for (let wishlistGame of wishlistList.user_wishlist) {
       if (wishlistGame.game_id.toString() === game_id.toString()) {
         isWishlist = true;
         break

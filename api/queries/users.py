@@ -17,6 +17,12 @@ class UserOut(BaseModel):
     profile_picture: Optional[str]
 
 
+class UserInUpdate(BaseModel):
+    username: str
+    email: str
+    profile_picture: Optional[str]
+
+
 class UserOutWithpassword(UserOut):
     password: str
 
@@ -116,7 +122,7 @@ class UserRepository:
                 return new_user
 
     def update(
-        self, user: UserIn, user_id, hashed_password
+        self, user: UserInUpdate, user_id
     ) -> UserOutWithpassword:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -125,25 +131,31 @@ class UserRepository:
                     UPDATE users
                     SET username=%s,
                     email=%s,
-                    password=%s,
                     profile_picture=%s
                     WHERE id=%s
                     RETURNING
                     id,
                     username,
                     email,
-                    password,
-                    profile_picture
+                    profile_picture,
+                    password
                     """,
                     [
                         user.username,
                         user.email,
-                        hashed_password,
                         user.profile_picture,
                         user_id,
                     ],
                 )
-                id = result.fetchone()[0]
-                old_data = user.dict()
-                new_user = UserOutWithpassword(id=id, **old_data)
-                return new_user
+                record = result.fetchone()
+                if record:
+                    updated_user = dict(zip([
+                                            'id',
+                                            'username',
+                                            'email',
+                                            'profile_picture',
+                                            'password'
+                                            ],
+                                            record
+                                            ))
+                    return UserOutWithpassword(**updated_user)

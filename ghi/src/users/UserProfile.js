@@ -50,7 +50,7 @@ useEffect(() => {
 
 
 return (
-  <div className="flex flex-col items-center h-screen bg-gray-200 p-4 pt-8">
+  <div className="flex flex-col items-center h-screen bg-gray-200 p-4 pt-8 h-screen bg-white dark:bg-gray-800 text-black dark:text-white">
     <div className="grid grid-cols-2 gap-12 justify-center mb-8">
       <div className="min-w-2xl max-w-2xl">
         <Card className="p-4 bg-gray-50 shadow-md h-96">
@@ -110,7 +110,7 @@ return (
           </div>
       </Card>
 
-      <Card className="bg-gray-50 shadow-md w-full p-2 h-[28rem]">
+      <Card className="bg-gray-50 shadow-md w-full p-2 h-[28rem] ">
         <h1 className="text-xl font-semibold mb-3 ">Wishlist</h1>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {userWishlist.slice(0,6).map((wishlist) => (

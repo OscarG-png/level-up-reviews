@@ -4,23 +4,13 @@ import { Card, Button } from 'flowbite-react';
 import { Link } from 'react-router-dom'
 function GenreGames({ genregames }) {
   return (
-    <div className="main">
+    <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-          <div>
-            <h2>List of {genregames.name} games</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Select a game</th>
-                </tr>
-              </thead>
-              <tbody>
+          <h2>List of {genregames.name} games</h2>
+          <div className="flex flex-wrap gap-5 ">
                 {genregames.map((game,index) => (
-                //   <tr key={game.game_id}>
-                //     <td>{game.title}</td>
-                //   </tr>
                     <Card
-                        className="max-w-sm"
+                        className="max-w-sm  "
                         imgAlt="Meaningful alt text for an image that is not purely decorative"
                         imgSrc="https://seeklogo.com/images/A/apex-logo-F74B0C9FCD-seeklogo.com.png"
                       >
@@ -48,8 +38,6 @@ function GenreGames({ genregames }) {
                         </Link>
                        </Card>
                 ))}
-              </tbody>
-            </table>
           </div>
       </div>
     </div>

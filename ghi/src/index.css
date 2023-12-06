@@ -16,7 +16,8 @@ code {
 @tailwind utilities;
 
 .main {
-  margin-left: 300px
+  margin-left: 255px;
+  position: relative;
 }
 
 .sidebar {
@@ -25,4 +26,26 @@ width: 150px;
 position: fixed;
 z-index: 100
 
+}
+
+.darkbutton{
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 100%;
+}
+
+.toggle-button {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-button.on {
+  color: #fff;
+}
+
+.toggle-button.off {
+  background-color: #fff;
+  color: #333;
 }

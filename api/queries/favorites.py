@@ -61,3 +61,15 @@ class FavoritesRepository:
                     )
                     for record in db
                 ]
+
+    def delete(self, game_id: int) -> bool:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    DELETE FROM favorites
+                    WHERE game_id = %s
+                    """,
+                    [game_id],
+                )
+                return True

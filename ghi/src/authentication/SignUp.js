@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 function SignUp() {
   const [userName, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
 
   const handleUserNameChange = async (event) => {
     const { value } = event.target;
@@ -36,10 +39,11 @@ function SignUp() {
       setUsername("");
       setEmail("");
       setPassword("");
+      navigate("/login");
     }
   };
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8  h-screen w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"

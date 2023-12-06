@@ -14,6 +14,7 @@ import GenreGames from "./genres/genregames.js";
 import GameDetails from "./games/GameDetails.js";
 import RecentPage from "./games/RecentPage.js";
 import AllGames from "./games/Allgames.js";
+import TopRatedList from "./games/TopRatedList.js";
 
 function App() {
   const baseUrl = `${process.env.REACT_APP_API_HOST}`;
@@ -82,9 +83,7 @@ function App() {
   const [genregames, setGenresGames] = useState([]);
 
   async function getGenresGames(genre_id) {
-    const response = await fetch(
-      `http://localhost:8000/genres/${genre_id}/games`
-    );
+    const response = await fetch(`http://localhost:8000/genres/${genre_id}/games`);
     if (response.ok) {
       const data = await response.json();
       setGenresGames(data);
@@ -121,6 +120,7 @@ function App() {
           />
           <Route path="/games/all" element={<AllGames games={games} />} />
           <Route path="/games/recent" element={<RecentPage games={games} />} />
+          <Route path="/games/toprated" element={<TopRatedList games={games} reviews={reviews} />} />
           <Route
             path="/genres/list"
             element={<GenreList genre={genre} genregames={getGenresGames} />}

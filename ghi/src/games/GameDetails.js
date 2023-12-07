@@ -47,8 +47,22 @@ async function addToFavorites() {
   if (response.ok) {
     setFavorite(true)
   }
-
 }
+
+async function removeFromFavorites() {
+  const userId = userData.user.id;
+  const response = await fetch(`http://localhost:8000/favorites/${game_id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    setFavorite(false);
+  }
+}
+
 async function addToWishlist() {
   const userId = userData.user.id;
   const response = await fetch(`http://localhost:8000/wishlist`, {
@@ -64,7 +78,19 @@ async function addToWishlist() {
   if (response.ok) {
     setUserWishlist(true)
   }
+}
+async function removeFromWishlist() {
+  const userId = userData.user.id;
+  const response = await fetch(`http://localhost:8000/wishlist/${game_id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
+  if (response.ok) {
+    setUserWishlist(false);
+  }
 }
 
 async function checkFavorite() {
@@ -134,18 +160,22 @@ return (
             </h6>
 
             <div className="flex gap-4 mt-4">
-              <Button color="purple"
-                outline={!wishlist}
-                hover="bg-purple-700 text-white"
-                onClick={addToWishlist}>
-                {wishlist ? 'Already in Wishlist' : 'Add to Wishlist'}
-              </Button>
-              <Button color="blue"
-              outline={!favorite}
-              hover="bg-blue-700 text-white"
-              onClick={addToFavorites}>
-                {favorite ? 'Already in Favorites' : 'Add to Favorites'}
-              </Button>
+            <Button
+              color="purple"
+              outline={wishlist}
+              hover="bg-purple-700 text-white"
+              onClick={wishlist ? removeFromWishlist : addToWishlist}
+            >
+              {wishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+            </Button>
+              <Button
+              color="blue"
+              outline={favorite}
+              hover="bg-purple-700 text-white"
+              onClick={favorite ? removeFromFavorites : addToFavorites}
+            >
+              {favorite ? 'Remove from Favorite' : 'Add to Favorite'}
+            </Button>
               <Link to={{
                 pathname: `/games/${game_id}/reviews`}}>
                 <Button>

@@ -10,7 +10,7 @@ function AllGames({ games }) {
     });
   }
   return (
-    <div className="main flex flex-wrap gap-5 h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white">
+    <div className="main flex flex-wrap gap-5  h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       {games.map((game) => {
         return (
           <Card

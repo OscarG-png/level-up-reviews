@@ -18,11 +18,11 @@ import useToken  from "@galvanize-inc/jwtdown-for-react";
 import React, { useEffect, useState } from "react";
 
 function Nav({genre, genregames}) {
-    const [darkMode, setDarkMode] = useState(false);
+
 
     const { token , logout , isLoading } = useToken();
 
-
+    const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
       if(window.matchMedia('(prefers-color-scheme: dark)').matches){
@@ -87,7 +87,7 @@ function Nav({genre, genregames}) {
             <Sidebar.Item >PC</Sidebar.Item>
           </Sidebar.Collapse>
           <Sidebar.Collapse icon={MdOutlineGridView} label="Genres">
-            {genre.map(g =>{
+            {genre.slice(0,5).map(g =>{
               return(
             <Sidebar.Item
                 key={g.genre_id}

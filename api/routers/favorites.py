@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from queries.favorites import (
     FavoritesIn,
     FavoritesCreateOut,
@@ -21,3 +21,14 @@ def get_user_favorites(user_id: int, repo: FavoritesRepository = Depends()):
     return {
         "favorites": favorites
     }
+
+
+@router.delete("/favorites/{game_id}", response_model=dict)
+def delete_wishlist_item(game_id: int, repo: FavoritesRepository = Depends()):
+    deleted = repo.delete(game_id)
+    if not deleted:
+        raise HTTPException(
+            status_code=404,
+            detail="Game not found in favorite"
+            )
+    return {"message": "Game deleted from favorite"}

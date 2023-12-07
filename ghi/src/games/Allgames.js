@@ -27,6 +27,7 @@ function AllGames({ games }) {
               Released on {formatedDate(game.release_date)}
             </p>
             <Link to={`/games/${game.id}`}>
+            <Button>Check it out</Button>
               <Button>Check it out</Button>
             </Link>
           </Card>

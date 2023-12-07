@@ -28,6 +28,9 @@ return (
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
+                        <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                            Username
+                        </label>
                         <input
                             type="text"
                             name="username"
@@ -37,6 +40,9 @@ return (
                             placeholder="Username"
                             ref={usernameInputRef}
                         />
+                         <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                            Email
+                        </label>
                         <input
                             type="email"
                             name="email"
@@ -45,6 +51,9 @@ return (
                             className="w-full p-2 border border-gray-300 rounded"
                             placeholder="Email"
                         />
+                         <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                            Profile picture URL
+                        </label>
                         <input
                             type="text"
                             name="profile_picture"

@@ -15,6 +15,9 @@ import GameDetails from "./games/GameDetails.js";
 import RecentPage from "./games/RecentPage.js";
 import AllGames from "./games/Allgames.js";
 import TopRatedList from "./games/TopRatedList.js";
+import PlatformList from "./platforms/platformlist.js";
+import PlatformGames from "./platforms/platformgames.js";
+
 
 function App() {
   const baseUrl = `${process.env.REACT_APP_API_HOST}`;
@@ -55,6 +58,15 @@ function App() {
     }
   }
 
+  const [platforms, setPlatforms] = useState([]);
+  async function getPlatforms() {
+    const response = await fetch("http://localhost:8000/platforms");
+    if (response.ok) {
+      const data = await response.json();
+      setPlatforms(data.platforms);
+    }
+  }
+
   const [reviews, setReviews] = useState([]);
   async function getReviews() {
       const reviewUrl = "http://localhost:8000/reviews/";
@@ -76,19 +88,36 @@ function App() {
       setGenresGames(data);
     }
   }
+  const [platformgames, setPlatformsGames] = useState([]);
+  async function getPlatformGames(platform_id) {
+    const response = await fetch(`http://localhost:8000/platforms/${platform_id}/games`);
+    if (response.ok) {
+      const data = await response.json();
+      setPlatformsGames(data.games_platforms);
+    }
+  }
   useEffect(() => {
     const defaultGenreId = 1;
+    const defaultPlatformId = 1;
     getGenresGames(defaultGenreId);
+    getPlatformGames(defaultPlatformId);
     getReviews();
     getGenres();
     getGames();
+    getPlatforms();
     fetchData();
   }, []);
+
 
   return (
     <BrowserRouter>
       <AuthProvider baseUrl={baseUrl}>
-        <Nav genre={genre} genregames={getGenresGames} />
+        <Nav
+          genre={genre}
+          genregames={getGenresGames}
+          platforms={platforms}
+          platformgames={getPlatformGames}
+        />
         <Routes>
           <Route
             index
@@ -119,6 +148,14 @@ function App() {
           <Route
             path="/genres/:genre_id/games"
             element={<GenreGames genre={genre} genregames={genregames} />}
+          />
+          <Route
+            path="/platforms/list"
+            element={<PlatformList platforms={platforms}/>}
+          />
+          <Route
+            path="/platforms/:platform_id/games"
+            element={<PlatformGames platforms={platforms} platformgames={platformgames} />}
           />
         </Routes>
       </AuthProvider>

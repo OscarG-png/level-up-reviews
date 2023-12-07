@@ -8,6 +8,8 @@ function GenreList({ genre, genregames }) {
     genregames(genre_id);
     navigate(`/genres/${genre_id}/games`);
   };
+
+  console.log("genre", genre)
   return (
     <div className="main h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white"  >
       <div>

@@ -1,5 +1,6 @@
 "use-client";
 import { Button, Card } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 function AllGames({ games }) {
   function formatedDate(date) {
@@ -25,7 +26,9 @@ function AllGames({ games }) {
             <p className="font-normal text-gray-700 dark:text-gray-400">
               Released on {formatedDate(game.release_date)}
             </p>
-            <Button>Check it out</Button>
+            <Link to={`/games/${game.id}`}>
+              <Button>Check it out</Button>
+            </Link>
           </Card>
         );
       })}

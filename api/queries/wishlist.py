@@ -19,6 +19,7 @@ class WishlistOut(BaseModel):
     title: str
     release_date: date
     esrb_rating: str
+    game_picture: str
     user_id: int
 
 
@@ -44,7 +45,7 @@ class WishlistRepository:
                 db.execute(
                     """
                     SELECT w.game_id, g.title, g.release_date,
-                    g.esrb_rating, w.user_id
+                    g.esrb_rating, g.game_picture, w.user_id
                     FROM wishlist w
                     JOIN games g ON g.id = w.game_id
                     WHERE user_id = %s
@@ -57,7 +58,8 @@ class WishlistRepository:
                         title=record[1],
                         release_date=record[2],
                         esrb_rating=record[3],
-                        user_id=record[4],
+                        game_picture=record[4],
+                        user_id=record[5],
                     )
                     for record in db
                 ]

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Avatar, Card} from "flowbite-react";
 import EditForm from "./EditProfileForm";
+import { Link } from 'react-router-dom'
 
 
 const UserProfile = ({userData, setUserData}) => {
@@ -157,27 +158,29 @@ return (
     </div>
     <div className="flex flex-col gap-8 w-full max-w-5xl">
       <Card className="bg-gray-50 shadow-md w-full p-2 h-[28rem]">
-        <h1 className="text-xl font-semibold mb-3 ">Favorite Games</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {userFavorites.slice(0,6).map((favorite) => (
-                <div key={favorite.game_id} className="flex flex-col items-center">
-                  <img src="https://cdn1.epicgames.com/epic/offer/RDR2PC1227_Epic%20Games_860x1148-860x1148-b4c2210ee0c3c3b843a8de399bfe7f5c.jpg"
-                  className="h-32 w-23 object-cover border-2 border-gray-300 shadow-xl"/>
+        <h1 className="text-xl font-semibold mb-6 ">Favorite Games</h1>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto max-h-[28rem]">
+              {userFavorites.map((favorite) => (
+                <Link to ={`/games/${favorite.game_id}`} key={favorite.game_id}className="flex flex-col items-center">
+                  <img
+                  src={favorite.game_picture}
+                  className="h-32 w-24 object-cover border-2 border-gray-300 shadow-xl"/>
                   <p className="text-center mt-2">{favorite.title}</p>
-                  </div>
+                  </Link>
               ))}
           </div>
       </Card>
 
       <Card className="bg-gray-50 shadow-md w-full p-2 h-[28rem] ">
         <h1 className="text-xl font-semibold mb-3 ">Wishlist</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {userWishlist.slice(0,6).map((wishlist) => (
-                <div key={wishlist.game_id} className="flex flex-col items-center">
-                  <img src="https://cdn1.epicgames.com/epic/offer/RDR2PC1227_Epic%20Games_860x1148-860x1148-b4c2210ee0c3c3b843a8de399bfe7f5c.jpg"
-                  className="h-32 w-23 object-cover border-2 border-gray-300 shadow-xl"/>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto max-h-[28rem]">
+              {userWishlist.map((wishlist) => (
+                <Link to ={`/games/${wishlist.game_id}`} key={wishlist.game_id}className="flex flex-col items-center">
+                  <img
+                  src={wishlist.game_picture}
+                  className="h-32 w-24 object-cover border-2 border-gray-300 shadow-xl"/>
                   <p className="text-center mt-2">{wishlist.title}</p>
-                  </div>
+                  </Link>
               ))}
           </div>
       </Card>

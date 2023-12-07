@@ -20,6 +20,7 @@ class FavoritesOut(BaseModel):
     release_date: date
     esrb_rating: str
     user_id: int
+    game_picture: str
 
 
 class FavoritesRepository:
@@ -44,7 +45,7 @@ class FavoritesRepository:
                 db.execute(
                     """
                     SELECT f.game_id, g.title, g.release_date,
-                    g.esrb_rating, f.user_id
+                    g.esrb_rating, g.game_picture, f.user_id
                     FROM favorites f
                     JOIN games g ON g.id = f.game_id
                     WHERE user_id = %s
@@ -57,7 +58,8 @@ class FavoritesRepository:
                         title=record[1],
                         release_date=record[2],
                         esrb_rating=record[3],
-                        user_id=record[4],
+                        game_picture=record[4],
+                        user_id=record[5],
                     )
                     for record in db
                 ]

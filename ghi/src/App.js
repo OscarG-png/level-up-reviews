@@ -37,7 +37,7 @@ function App() {
       setGames(data.games);
     }
   }
-  async function fetchData() {
+  const fetchData = async () => {
     try {
       const data = await fetchWithCookie("http://localhost:8000/token");
       setUserData(data);
@@ -107,7 +107,7 @@ function App() {
           <Route path="/games/:game_id/reviews" element={<CreateReview reviews={reviews} userData={userData}/>}/>
           <Route
             path="/profile"
-            element={<UserProfile userData={userData} />}
+            element={<UserProfile userData={userData} setUserData={setUserData}/>}
           />
           <Route path="/games/all" element={<AllGames games={games} />} />
           <Route path="/games/recent" element={<RecentPage games={games} />} />

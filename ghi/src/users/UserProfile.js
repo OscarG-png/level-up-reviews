@@ -1,13 +1,39 @@
 import { useState, useEffect } from "react";
 import { Avatar, Card} from "flowbite-react";
+import EditForm from "./EditProfileForm";
 
 
-const UserProfile = ({userData}) => {
+const UserProfile = ({userData, setUserData}) => {
 const [userReviews, setUserReviews] = useState([]);
 const [userFavorites, setUserFavorites] = useState([]);
 const [userWishlist, setUserWishlist] = useState([]);
+const [showModal, setShowModal] = useState(false);
+const [currentUser, setCurrentUser] = useState({
+  username: "",
+  id:"",
+  email: "",
+  profile_picture: ""})
 
 
+async function getUser() {
+  const response = await fetch(`http://localhost:8000/users`);
+        if (response.ok) {
+          const data = await response.json();
+          const userId = Number(userData.user.id);
+      let foundUser = null;
+
+      for (const user of data.users) {
+        if (user.id === userId) {
+          foundUser = user;
+          break;
+        }
+      }
+
+      if (foundUser) {
+        console.log(foundUser)
+        setCurrentUser(foundUser);
+      }}
+}
 async function fetchReviews () {
     const reviewsResponse = await fetch(`http://localhost:8000/users/${userData.user.id}/reviews`);
     if (reviewsResponse.ok) {
@@ -32,6 +58,23 @@ async function fetchReviews () {
         }
   }
 
+  const handleSave = async (editedUser) => {
+    const response = await fetch(`http://localhost:8000/users/${userData.user.id}`,
+     {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify(editedUser),
+    })
+    console.log("edittteddddd", editedUser)
+    if (response.ok) {
+      const updatedUserData = await response.json()
+      setCurrentUser(updatedUserData)
+      setShowModal(false);
+    }
+  }
+
 
 const ratingColor = (rating) => {
   if (rating < 60) return {color: 'red'};
@@ -39,11 +82,16 @@ const ratingColor = (rating) => {
   else return { color: 'green' }
 }
 
+const toggleEdit = () => {
+  setShowModal(!showModal)
+}
 
 useEffect(() => {
+  getUser()
   fetchReviews()
   fetchFavorites()
   fetchWishlist()
+
 }, [userData.user.id]);
 
 
@@ -56,7 +104,7 @@ return (
             <div className="flex-shrink-0">
               <div className="rounded-full shadow-xl overflow-hidden inline-block">
               <Avatar
-                img={userData.user.profile_picture}
+                img={currentUser.profile_picture}
                 alt="Profile"
                 size="xl"
                 rounded bordered color="gray"
@@ -64,12 +112,25 @@ return (
               </div>
             </div>
             <div className="flex-grow ml-8">
-              <h1 className="text-3xl font-bold mb-2">{userData.user.username}</h1>
-              <p className="text-lg mb-1 truncate">Email: {userData.user.email}</p>
-              <p className="text-sm overflow-hidden">Bio: asdf;laksdj ;alkjd;flaksjdf ;alsdkjf ;als...</p>
+              <h1 className="text-3xl font-bold mb-2">{currentUser.username}</h1>
+              <p className="text-lg mb-1 truncate">Email: {currentUser.email}</p>
+              <button
+                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+                onClick={toggleEdit}
+                >
+                  Edit
+                </button>
             </div>
           </div>
         </Card>
+        {showModal && (
+          <EditForm
+          user={currentUser}
+          onSave={handleSave}
+          onCancel={() => setShowModal(false)}
+          showModal={showModal}
+          />
+        )}
       </div>
       {/*reviewsssssssssssssssssssssssss*/}
       <div className="min-w-2xl max-w-2xl">

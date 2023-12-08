@@ -28,7 +28,6 @@ function AllGames({ games }) {
             </p>
             <Link to={`/games/${game.id}`}>
             <Button>Check it out</Button>
-              <Button>Check it out</Button>
             </Link>
           </Card>
         );

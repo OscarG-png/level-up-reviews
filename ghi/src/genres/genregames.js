@@ -24,7 +24,7 @@ function GenreGames({ genregames }) {
                 place holder for description
               </p>
               <Button>
-                See Reviews
+                See Details
                 <svg
                   className="-mr-1 ml-2 h-4 w-4"
                   fill="currentColor"

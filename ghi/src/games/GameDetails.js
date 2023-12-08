@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Card, Button, Avatar } from "flowbite-react";
 
 function GameDetails({ userData }) {
   const { game_id } = useParams();
+  const navigate = useNavigate()
   const [gameDetails, setGameDetails] = useState("");
   const [gameReviews, setGameReviews] = useState([]);
   const [favorite, setFavorite] = useState(false);
   const [wishlist, setUserWishlist] = useState(false);
+  const isUserLoggedIn = userData && userData.user && userData.user.id;
 
+  const redirectToLogin = () => {
+    navigate('/login')
+  }
   async function fetchGame() {
     const response = await fetch(`http://localhost:8000/games/${game_id}`);
     if (response.ok) {
@@ -33,6 +38,10 @@ function GameDetails({ userData }) {
   };
 
   async function addToFavorites() {
+    if (!isUserLoggedIn) {
+      redirectToLogin();
+      return;
+    }
     const userId = userData.user.id;
     const response = await fetch(`http://localhost:8000/favorites`, {
       method: "POST",
@@ -50,6 +59,10 @@ function GameDetails({ userData }) {
   }
 
   async function removeFromFavorites() {
+    if (!isUserLoggedIn) {
+      redirectToLogin()
+      return
+    }
     const response = await fetch(`http://localhost:8000/favorites/${game_id}`, {
       method: "DELETE",
       headers: {
@@ -63,6 +76,10 @@ function GameDetails({ userData }) {
   }
 
   async function addToWishlist() {
+    if (!isUserLoggedIn) {
+      redirectToLogin()
+      return
+    }
     const userId = userData.user.id;
     const response = await fetch(`http://localhost:8000/wishlist`, {
       method: "POST",
@@ -79,6 +96,10 @@ function GameDetails({ userData }) {
     }
   }
   async function removeFromWishlist() {
+     if (!isUserLoggedIn) {
+      redirectToLogin()
+      return
+    }
     const response = await fetch(`http://localhost:8000/wishlist/${game_id}`, {
       method: "DELETE",
       headers: {
@@ -123,13 +144,21 @@ function GameDetails({ userData }) {
       setUserWishlist(isWishlist);
     }
   }
+  const handleCreateReview = () => {
+    if (!isUserLoggedIn) {
+      redirectToLogin()
+    } else {
+      navigate(`/games/${game_id}/reviews`)
+    }
+  }
 
   useEffect(() => {
     fetchGame();
     fetchGameReviews();
-    checkFavorite();
-    checkWishlist();
-  }, [game_id, userData.user.id]);
+    if (isUserLoggedIn) {
+      checkFavorite();
+      checkWishlist();}
+  }, [game_id, userData?.user?.id]);
 
   return (
     <div className="flex flex-col items-center py-16">
@@ -176,13 +205,8 @@ function GameDetails({ userData }) {
               >
                 {favorite ? "Remove from Favorite" : "Add to Favorite"}
               </Button>
-              <Link
-                to={{
-                  pathname: `/games/${game_id}/reviews`,
-                }}
-              >
-                <Button>Create Review</Button>
-              </Link>
+                <Button onClick={handleCreateReview}>Create Review</Button>
+
             </div>
           </div>
         </div>

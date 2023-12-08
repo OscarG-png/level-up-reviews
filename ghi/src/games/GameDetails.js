@@ -11,9 +11,10 @@ function GameDetails({ userData }) {
   const [wishlist, setUserWishlist] = useState(false);
   const isUserLoggedIn = userData && userData.user && userData.user.id;
 
-  const redirectToLogin = () => {
+const redirectToLogin = () => {
     navigate('/login')
   }
+  useEffect(() => {
   async function fetchGame() {
     const response = await fetch(`http://localhost:8000/games/${game_id}`);
     if (response.ok) {
@@ -31,11 +32,46 @@ function GameDetails({ userData }) {
       setGameReviews(data.reviews);
     }
   }
-  const ratingColor = (rating) => {
-    if (rating < 60) return { color: "red" };
-    else if (rating >= 60 && rating <= 79) return { color: "#f1c40f" };
-    else return { color: "green" };
-  };
+
+   async function checkWishlist() {
+    const response = await fetch(
+      `http://localhost:8000/users/${userData.user.id}/wishlist`
+    );
+    if (response.ok) {
+      const wishlistList = await response.json();
+      let isWishlist = false;
+      for (let wishlistGame of wishlistList.user_wishlist) {
+        if (wishlistGame.game_id.toString() === game_id.toString()) {
+          isWishlist = true;
+          break;
+        }
+      }
+      setUserWishlist(isWishlist);
+    }
+  }
+   async function checkFavorite() {
+    const response = await fetch(
+      `http://localhost:8000/users/${userData.user.id}/favorites`
+    );
+    if (response.ok) {
+      const favoritesList = await response.json();
+      let isFavorite = false;
+      for (let favoriteGame of favoritesList.favorites) {
+        if (favoriteGame.game_id.toString() === game_id.toString()) {
+          isFavorite = true;
+          break;
+        }
+      }
+      setFavorite(isFavorite);
+    }
+  }
+  fetchGame();
+    fetchGameReviews();
+    if (isUserLoggedIn) {
+      checkFavorite();
+      checkWishlist();}
+  }, [game_id, userData?.user?.id, isUserLoggedIn]);
+
 
   async function addToFavorites() {
     if (!isUserLoggedIn) {
@@ -95,6 +131,8 @@ function GameDetails({ userData }) {
       setUserWishlist(true);
     }
   }
+
+
   async function removeFromWishlist() {
      if (!isUserLoggedIn) {
       redirectToLogin()
@@ -111,39 +149,6 @@ function GameDetails({ userData }) {
       setUserWishlist(false);
     }
   }
-
-  async function checkFavorite() {
-    const response = await fetch(
-      `http://localhost:8000/users/${userData.user.id}/favorites`
-    );
-    if (response.ok) {
-      const favoritesList = await response.json();
-      let isFavorite = false;
-      for (let favoriteGame of favoritesList.favorites) {
-        if (favoriteGame.game_id.toString() === game_id.toString()) {
-          isFavorite = true;
-          break;
-        }
-      }
-      setFavorite(isFavorite);
-    }
-  }
-  async function checkWishlist() {
-    const response = await fetch(
-      `http://localhost:8000/users/${userData.user.id}/wishlist`
-    );
-    if (response.ok) {
-      const wishlistList = await response.json();
-      let isWishlist = false;
-      for (let wishlistGame of wishlistList.user_wishlist) {
-        if (wishlistGame.game_id.toString() === game_id.toString()) {
-          isWishlist = true;
-          break;
-        }
-      }
-      setUserWishlist(isWishlist);
-    }
-  }
   const handleCreateReview = () => {
     if (!isUserLoggedIn) {
       redirectToLogin()
@@ -152,15 +157,13 @@ function GameDetails({ userData }) {
     }
   }
 
-  useEffect(() => {
-    fetchGame();
-    fetchGameReviews();
-    if (isUserLoggedIn) {
-      checkFavorite();
-      checkWishlist();}
-  }, [game_id, userData?.user?.id]);
-
-  return (
+    const ratingColor = (rating) => {
+    if (rating < 60) return { color: "red" };
+    else if (rating >= 60 && rating <= 79) return { color: "#f1c40f" };
+    else return { color: "green" };
+  };
+  
+return (
     <div className="flex flex-col items-center py-16">
       <div
         className="absolute top-0 left-0 right-0 bottom-0 -z-10"

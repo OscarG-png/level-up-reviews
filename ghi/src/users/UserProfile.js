@@ -165,7 +165,7 @@ return (
                 <h3 className="text-lg font-semibold">{review.game_title}</h3>
                 <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
                   <span>{review.review_date}</span>
-                  <span className="font-semibold" mb-3>Rating: <span style={ratingColor(review.rating)}>{review.rating}</span></span>
+                  <span className="font-semibold mb-3">Rating: <span style={ratingColor(review.rating)}>{review.rating}</span></span>
                 </div>
                 <p className="overflow-hidden">{review.content}</p>
               </div>

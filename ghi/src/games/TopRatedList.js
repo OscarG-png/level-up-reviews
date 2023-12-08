@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { Card } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 function TopRatedList({ games, reviews }) {
-  const navigate = useNavigate();
-
   const hasRatingAbove90 = (game) => {
-    return reviews.some((review) => review.game_id === game.id && review.rating > 90);
+    return reviews.some(
+      (review) => review.game_id === game.id && review.rating > 90
+    );
   };
 
   const filteredGames = games.filter(hasRatingAbove90);

@@ -98,9 +98,8 @@ function App() {
     }
   }
   useEffect(() => {
-    const defaultGenreId = 1;
     const defaultPlatformId = 1;
-    getGenresGames(defaultGenreId);
+    getGenresGames();
     getPlatformGames(defaultPlatformId);
     getReviews();
     getGenres();
@@ -111,70 +110,64 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AuthProvider baseUrl={baseUrl}>
-        <Nav
-          genre={genre}
-          genregames={getGenresGames}
-          platforms={platforms}
-          platformgames={getPlatformGames}
+      <Nav
+        genre={genre}
+        genregames={getGenresGames}
+        platforms={platforms}
+        platformgames={getPlatformGames}
+      />
+      <Routes>
+        <Route
+          index
+          path="/"
+          element={
+            <MainPage games={games} genre={genre} genregames={getGenresGames} />
+          }
         />
-        <Routes>
-          <Route
-            index
-            path="/"
-            element={
-              <MainPage
-                games={games}
-                genre={genre}
-                genregames={getGenresGames}
-              />
-            }
-          />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route
-            path="/games/:game_id"
-            element={<GameDetails userData={userData} />}
-          />
-          <Route
-            path="/games/:game_id/reviews"
-            element={<CreateReview reviews={reviews} userData={userData} />}
-          />
-          <Route
-            path="/profile"
-            element={
-              <UserProfile userData={userData} setUserData={setUserData} />
-            }
-          />
-          <Route path="/games/all" element={<AllGames games={games} />} />
-          <Route path="/games/recent" element={<RecentPage games={games} />} />
-          <Route
-            path="/games/toprated"
-            element={<TopRatedList games={games} reviews={reviews} />}
-          />
-          <Route
-            path="/genres/list"
-            element={<GenreList genre={genre} genregames={getGenresGames} />}
-          />
-          <Route
-            path="/genres/:genre_id/games"
-            element={<GenreGames genre={genre} genregames={genregames} />}
-          />
-          <Route
-            path="/platforms/list"
-            element={<PlatformList platforms={platforms} />}
-          />
-          <Route
-            path="/platforms/:platform_id/games"
-            element={
-              <PlatformGames
-                platforms={platforms}
-                platformgames={platformgames}
-              />
-            }
-          />
-        </Routes>
-      </AuthProvider>
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route
+          path="/games/:game_id"
+          element={<GameDetails userData={userData} />}
+        />
+        <Route
+          path="/games/:game_id/reviews"
+          element={<CreateReview reviews={reviews} userData={userData} />}
+        />
+        <Route
+          path="/profile"
+          element={
+            <UserProfile userData={userData} setUserData={setUserData} />
+          }
+        />
+        <Route path="/games/all" element={<AllGames games={games} />} />
+        <Route path="/games/recent" element={<RecentPage games={games} />} />
+        <Route
+          path="/games/toprated"
+          element={<TopRatedList games={games} reviews={reviews} />}
+        />
+        <Route
+          path="/genres/list"
+          element={<GenreList genre={genre} genregames={getGenresGames} />}
+        />
+        <Route
+          path="/genres/:genre_id/games"
+          element={<GenreGames genre={genre} genregames={genregames} />}
+        />
+        <Route
+          path="/platforms/list"
+          element={<PlatformList platforms={platforms} />}
+        />
+        <Route
+          path="/platforms/:platform_id/games"
+          element={
+            <PlatformGames
+              platforms={platforms}
+              platformgames={platformgames}
+            />
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

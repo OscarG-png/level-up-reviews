@@ -50,7 +50,6 @@ function GameDetails({ userData }) {
   }
 
   async function removeFromFavorites() {
-    const userId = userData.user.id;
     const response = await fetch(`http://localhost:8000/favorites/${game_id}`, {
       method: "DELETE",
       headers: {
@@ -80,7 +79,6 @@ function GameDetails({ userData }) {
     }
   }
   async function removeFromWishlist() {
-    const userId = userData.user.id;
     const response = await fetch(`http://localhost:8000/wishlist/${game_id}`, {
       method: "DELETE",
       headers: {

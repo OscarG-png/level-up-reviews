@@ -15,21 +15,24 @@ function PlatformGames({ platformgames }) {
     <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
           <div>
             <h2>List of {platformgames.name} games</h2>
-              <div className="flex flex-wrap gap-5 ">
+              <div className="flex flex-wrap gap-3 justify-center">
                 {platformgames.map((game,index) => (
-                    <Card
-                        className="max-w-sm"
-                        imgAlt="Meaningful alt text for an image that is not purely decorative"
-                        imgSrc="https://seeklogo.com/images/A/apex-logo-F74B0C9FCD-seeklogo.com.png"
-                      >
-                        <h5 key={(game.game_id +index)} className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    <Card key={game.game_id} className="card-custom ">
+                        <img
+                          src={game.game_picture}
+                          alt={`${game.title} game image`}
+                          className="game-image"
+                        />
+                        <h5 key={(game.game_id +index)} className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                           {game.title}
                         </h5>
+                        <div className='flex justify-center'>
                         <Link to={`/games/${game.game_id}`}>
                           <Button>
                             See Details
                           </Button>
                         </Link>
+                        </div>
                   </Card>
                 ))}
           </div>

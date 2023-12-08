@@ -20,6 +20,14 @@ class PlatformsForGamesOut(BaseModel):
     name: str
 
 
+class PlatformsForGamesPic(BaseModel):
+    game_id: int
+    title: str
+    platform_id: int
+    name: str
+    game_picture: str
+
+
 class GamePlatformRepository:
     def create(self, game_platforms: GamePlatformIn) -> GamePlatformOut:
         with pool.connection() as conn:
@@ -81,12 +89,13 @@ class GamePlatformRepository:
 
     def get_games_for_platform(
         self, platform_id: int
-    ) -> List[PlatformsForGamesOut]:
+    ) -> List[PlatformsForGamesPic]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT gp.game_id, g.title, gp.platform_id, p.name
+                    SELECT gp.game_id,
+                    g.title, gp.platform_id, p.name, g.game_picture
                     FROM game_platforms AS gp
                     JOIN games g ON gp.game_id = g.id
                     JOIN platforms p on gp.platform_id = p.id
@@ -95,11 +104,12 @@ class GamePlatformRepository:
                     [platform_id],
                 )
                 return [
-                    PlatformsForGamesOut(
+                    PlatformsForGamesPic(
                         game_id=record[0],
                         title=record[1],
                         platform_id=record[2],
                         name=record[3],
+                        game_picture=record[4]
                     )
                     for record in db.fetchall()
                 ]

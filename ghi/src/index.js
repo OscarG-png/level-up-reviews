@@ -1,13 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const baseUrl = `${process.env.REACT_APP_API_HOST}`;
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider baseUrl={baseUrl}>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 

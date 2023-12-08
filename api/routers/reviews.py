@@ -6,13 +6,18 @@ from queries.reviews import (
     GameRatingOut,
 )
 from typing import List
+from authenticator import authenticator
 
 
 router = APIRouter()
 
 
 @router.post("/reviews", response_model=ReviewOut)
-def create(reviews: ReviewIn, repo: ReviewRepository = Depends()):
+def create(
+    reviews: ReviewIn,
+    repo: ReviewRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
     return repo.create(reviews)
 
 

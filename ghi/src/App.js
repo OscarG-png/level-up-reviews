@@ -5,7 +5,6 @@ import SignUp from "./authentication/SignUp.js";
 import LoginForm from "./authentication/login.js";
 import MainPage from "./MainPage.js";
 import UserProfile from "./users/UserProfile.js";
-import useToken from "@galvanize-inc/jwtdown-for-react";
 import Nav from "./nav.js";
 import GenreList from "./genres/genrelist.js";
 import CreateReview from "./reviews/CreateReviews.js";
@@ -18,7 +17,6 @@ import PlatformList from "./platforms/platformlist.js";
 import PlatformGames from "./platforms/platformgames.js";
 
 function App() {
-  const { fetchWithCookie } = useToken();
   const [games, setGames] = useState([]);
   const [userData, setUserData] = useState({
     user: {
@@ -37,14 +35,6 @@ function App() {
       setGames(data.games);
     }
   }
-  const fetchData = async () => {
-    try {
-      const data = await fetchWithCookie("http://localhost:8000/token");
-      setUserData(data);
-    } catch (error) {
-      console.error("Error fetching the user data:", error);
-    }
-  };
 
   const [genre, setGenres] = useState([]);
   async function getGenres() {
@@ -76,17 +66,6 @@ function App() {
     }
   }
 
-  const [genregames, setGenresGames] = useState([]);
-
-  async function getGenresGames(genre_id) {
-    const response = await fetch(
-      `http://localhost:8000/genres/${genre_id}/games`
-    );
-    if (response.ok) {
-      const data = await response.json();
-      setGenresGames(data);
-    }
-  }
   const [platformgames, setPlatformsGames] = useState([]);
   async function getPlatformGames(platform_id) {
     const response = await fetch(
@@ -99,21 +78,17 @@ function App() {
   }
   useEffect(() => {
     const defaultPlatformId = 1;
-    getGenresGames();
     getPlatformGames(defaultPlatformId);
     getReviews();
     getGenres();
     getGames();
     getPlatforms();
-    fetchData();
   }, []);
-
 
   return (
     <BrowserRouter>
       <Nav
         genre={genre}
-        genregames={getGenresGames}
         platforms={platforms}
         platformgames={getPlatformGames}
       />
@@ -121,9 +96,7 @@ function App() {
         <Route
           index
           path="/"
-          element={
-            <MainPage games={games} genre={genre} genregames={getGenresGames} />
-          }
+          element={<MainPage games={games} genre={genre} />}
         />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginForm />} />
@@ -147,14 +120,8 @@ function App() {
           path="/games/toprated"
           element={<TopRatedList games={games} reviews={reviews} />}
         />
-        <Route
-          path="/genres/list"
-          element={<GenreList genre={genre} genregames={getGenresGames} />}
-        />
-        <Route
-          path="/genres/:genre_id/games"
-          element={<GenreGames genre={genre} genregames={genregames} />}
-        />
+        <Route path="/genres/list" element={<GenreList genre={genre} />} />
+        <Route path="/genres/:genre_id/games" element={<GenreGames />} />
         <Route
           path="/platforms/list"
           element={<PlatformList platforms={platforms} />}

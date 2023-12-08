@@ -20,6 +20,14 @@ class GenresForGamesOut(BaseModel):
     name: str
 
 
+class GenreGamesPics(BaseModel):
+    game_id: int
+    title: str
+    genre_id: int
+    name: str
+    game_picture: str
+
+
 class GameGenreRepository:
     def create_game_genre(self, game_genres: GameGenreIn) -> GameGenreOut:
         with pool.connection() as conn:
@@ -81,7 +89,12 @@ class GameGenreRepository:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT gg.game_id, g.title, gg.genre_id, ge.title
+                    SELECT
+                    gg.game_id,
+                    g.title,
+                    gg.genre_id,
+                    ge.title,
+                    g.game_picture
                     FROM game_genres as gg
                     JOIN games g ON gg.game_id = g.id
                     JOIN genre ge on gg.genre_id = ge.id
@@ -90,11 +103,12 @@ class GameGenreRepository:
                     [genre_id],
                 )
                 return [
-                    GenresForGamesOut(
+                    GenreGamesPics(
                         game_id=record[0],
                         title=record[1],
                         genre_id=record[2],
                         name=record[3],
+                        game_picture=record[4]
                     )
                     for record in db.fetchall()
                 ]

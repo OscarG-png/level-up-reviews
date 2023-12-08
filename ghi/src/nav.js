@@ -20,23 +20,21 @@ function Nav({ genre, genregames, platforms, platformgames }) {
   const [darkMode, setDarkMode] = useState(false);
   const { token, logout, isLoading } = useToken();
 
-    useEffect(() => {
-      if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-        setDarkMode('dark');
-      }
-      else {
-        setDarkMode('light')
-      }
-    },[])
+  useEffect(() => {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setDarkMode("dark");
+    } else {
+      setDarkMode("light");
+    }
+  }, []);
 
-
-    useEffect(() =>{
-      if (darkMode){
-        document.documentElement.classList.add("dark")
-      } else {
-        document.documentElement.classList.remove("dark")
-      }
-    }, [darkMode])
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   const switchDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
@@ -50,14 +48,11 @@ function Nav({ genre, genregames, platforms, platformgames }) {
   };
 
   const handleGenreClick = (genre_id) => {
-    genregames(genre_id);
-    console.log("Clicked Genre ID:", genre_id);
     navigate(`/genres/${genre_id}/games`);
   };
 
   const handlePlatformClick = (platform_id) => {
     platformgames(platform_id);
-    console.log("Clicked Platform ID:", platform_id);
     navigate(`/platforms/${platform_id}/games`);
   };
 

@@ -28,6 +28,9 @@ def get_genres_for_game(game_id: int, repo: GameGenreRepository = Depends()):
     return repo.get_genres_for_game(game_id)
 
 
-@router.get("/genres/{genre_id}/games", response_model=List[GenresForGamesOut])
+@router.get("/genres/{genre_id}/games", response_model=dict)
 def get_games_for_genre(genre_id: int, repo: GameGenreRepository = Depends()):
-    return repo.get_games_for_genre(genre_id)
+    genre_games = repo.get_games_for_genre(genre_id)
+    return {
+        "genre_games": genre_games
+    }

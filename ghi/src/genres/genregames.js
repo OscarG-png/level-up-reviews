@@ -1,8 +1,23 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Button } from "flowbite-react";
-import { Link } from "react-router-dom";
-function GenreGames({ genregames }) {
+import { Link, useParams } from "react-router-dom";
+function GenreGames() {
+  let { genre_id } = useParams();
+  const [genregames, setGenresGames] = useState([]);
+
+  async function getGenresGames(genre_id) {
+    const response = await fetch(
+      `http://localhost:8000/genres/${genre_id}/games`
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setGenresGames(data.genre_games);
+    }
+  }
+  useEffect(() => {
+    getGenresGames(genre_id);
+  }, [genre_id]);
   return (
     <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
@@ -12,7 +27,7 @@ function GenreGames({ genregames }) {
             <Card
               className="max-w-sm  "
               imgAlt="Meaningful alt text for an image that is not purely decorative"
-              imgSrc="https://seeklogo.com/images/A/apex-logo-F74B0C9FCD-seeklogo.com.png"
+              imgSrc={game.game_picture}
             >
               <h5
                 key={game.game_id + index}

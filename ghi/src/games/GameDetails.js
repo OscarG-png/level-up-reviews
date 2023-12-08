@@ -4,74 +4,74 @@ import { Card, Button, Avatar } from "flowbite-react";
 
 function GameDetails({ userData }) {
   const { game_id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [gameDetails, setGameDetails] = useState("");
   const [gameReviews, setGameReviews] = useState([]);
   const [favorite, setFavorite] = useState(false);
   const [wishlist, setUserWishlist] = useState(false);
   const isUserLoggedIn = userData && userData.user && userData.user.id;
 
-const redirectToLogin = () => {
-    navigate('/login')
-  }
+  const redirectToLogin = () => {
+    navigate("/login");
+  };
   useEffect(() => {
-  async function fetchGame() {
-    const response = await fetch(`http://localhost:8000/games/${game_id}`);
-    if (response.ok) {
-      const data = await response.json();
-      setGameDetails(data);
-    }
-  }
-
-  async function fetchGameReviews() {
-    const response = await fetch(
-      `http://localhost:8000/games/${game_id}/reviews`
-    );
-    if (response.ok) {
-      const data = await response.json();
-      setGameReviews(data.reviews);
-    }
-  }
-
-   async function checkWishlist() {
-    const response = await fetch(
-      `http://localhost:8000/users/${userData.user.id}/wishlist`
-    );
-    if (response.ok) {
-      const wishlistList = await response.json();
-      let isWishlist = false;
-      for (let wishlistGame of wishlistList.user_wishlist) {
-        if (wishlistGame.game_id.toString() === game_id.toString()) {
-          isWishlist = true;
-          break;
-        }
+    async function fetchGame() {
+      const response = await fetch(`http://localhost:8000/games/${game_id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setGameDetails(data);
       }
-      setUserWishlist(isWishlist);
     }
-  }
-   async function checkFavorite() {
-    const response = await fetch(
-      `http://localhost:8000/users/${userData.user.id}/favorites`
-    );
-    if (response.ok) {
-      const favoritesList = await response.json();
-      let isFavorite = false;
-      for (let favoriteGame of favoritesList.favorites) {
-        if (favoriteGame.game_id.toString() === game_id.toString()) {
-          isFavorite = true;
-          break;
-        }
+
+    async function fetchGameReviews() {
+      const response = await fetch(
+        `http://localhost:8000/games/${game_id}/reviews`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setGameReviews(data.reviews);
       }
-      setFavorite(isFavorite);
     }
-  }
-  fetchGame();
+
+    async function checkWishlist() {
+      const response = await fetch(
+        `http://localhost:8000/users/${userData.user.id}/wishlist`
+      );
+      if (response.ok) {
+        const wishlistList = await response.json();
+        let isWishlist = false;
+        for (let wishlistGame of wishlistList.user_wishlist) {
+          if (wishlistGame.game_id.toString() === game_id.toString()) {
+            isWishlist = true;
+            break;
+          }
+        }
+        setUserWishlist(isWishlist);
+      }
+    }
+    async function checkFavorite() {
+      const response = await fetch(
+        `http://localhost:8000/users/${userData.user.id}/favorites`
+      );
+      if (response.ok) {
+        const favoritesList = await response.json();
+        let isFavorite = false;
+        for (let favoriteGame of favoritesList.favorites) {
+          if (favoriteGame.game_id.toString() === game_id.toString()) {
+            isFavorite = true;
+            break;
+          }
+        }
+        setFavorite(isFavorite);
+      }
+    }
+    fetchGame();
     fetchGameReviews();
     if (isUserLoggedIn) {
       checkFavorite();
-      checkWishlist();}
+      checkWishlist();
+    }
   }, [game_id, userData?.user?.id, isUserLoggedIn]);
-
 
   async function addToFavorites() {
     if (!isUserLoggedIn) {
@@ -96,8 +96,8 @@ const redirectToLogin = () => {
 
   async function removeFromFavorites() {
     if (!isUserLoggedIn) {
-      redirectToLogin()
-      return
+      redirectToLogin();
+      return;
     }
     const response = await fetch(`http://localhost:8000/favorites/${game_id}`, {
       method: "DELETE",
@@ -113,8 +113,8 @@ const redirectToLogin = () => {
 
   async function addToWishlist() {
     if (!isUserLoggedIn) {
-      redirectToLogin()
-      return
+      redirectToLogin();
+      return;
     }
     const userId = userData.user.id;
     const response = await fetch(`http://localhost:8000/wishlist`, {
@@ -132,11 +132,10 @@ const redirectToLogin = () => {
     }
   }
 
-
   async function removeFromWishlist() {
-     if (!isUserLoggedIn) {
-      redirectToLogin()
-      return
+    if (!isUserLoggedIn) {
+      redirectToLogin();
+      return;
     }
     const response = await fetch(`http://localhost:8000/wishlist/${game_id}`, {
       method: "DELETE",
@@ -151,19 +150,19 @@ const redirectToLogin = () => {
   }
   const handleCreateReview = () => {
     if (!isUserLoggedIn) {
-      redirectToLogin()
+      redirectToLogin();
     } else {
-      navigate(`/games/${game_id}/reviews`)
+      navigate(`/games/${game_id}/reviews`);
     }
-  }
+  };
 
-    const ratingColor = (rating) => {
+  const ratingColor = (rating) => {
     if (rating < 60) return { color: "red" };
     else if (rating >= 60 && rating <= 79) return { color: "#f1c40f" };
     else return { color: "green" };
   };
-  
-return (
+
+  return (
     <div className="flex flex-col items-center py-16">
       <div
         className="absolute top-0 left-0 right-0 bottom-0 -z-10"
@@ -208,8 +207,7 @@ return (
               >
                 {favorite ? "Remove from Favorite" : "Add to Favorite"}
               </Button>
-                <Button onClick={handleCreateReview}>Create Review</Button>
-
+              <Button onClick={handleCreateReview}>Create Review</Button>
             </div>
           </div>
         </div>

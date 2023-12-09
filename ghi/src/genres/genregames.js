@@ -18,44 +18,41 @@ function GenreGames() {
   useEffect(() => {
     getGenresGames(genre_id);
   }, [genre_id]);
+
+  if (!genregames) {
+    return <div>Loading games...</div>;
+  }
+  if (genregames.length === 0) {
+    return <div>No games available for this genre.</div>;
+  }
   return (
     <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-        <h2>List of {genregames.name} games</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+          List of {genregames.name} games
+        </h2>
         <div className="flex flex-wrap gap-5 ">
           {genregames.map((game, index) => (
             <Card
-              className="max-w-sm  "
-              imgAlt="Meaningful alt text for an image that is not purely decorative"
-              imgSrc={game.game_picture}
+              key={game.game_id}
+              className="card-custom max-w-sm basis-1/2"
             >
+              <img
+                src={game.game_picture}
+                alt={game.title}
+                className="game-image"
+              />
               <h5
                 key={game.game_id + index}
-                className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center"
               >
                 {game.title}
               </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                place holder for description
-              </p>
-              <Button>
-                See Details
-                <svg
-                  className="-mr-1 ml-2 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </Button>
+              <div className="flex justify-center">
               <Link to={`/games/${game.game_id}`}>
                 <Button>See Details</Button>
               </Link>
+              </div>
             </Card>
           ))}
         </div>

@@ -15,9 +15,9 @@ function PlatformGames({ platformgames }) {
     <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
         <h2>List of {platformgames.name} games</h2>
-        <div className="flex flex-wrap gap-3 justify-center">
+        <div className="flex flex-wrap gap-5">
           {platformgames.map((game, index) => (
-            <Card key={game.game_id} className="card-custom ">
+            <Card key={game.game_id} className="card-custom max-w-sm basis-1/2">
               <img
                 src={game.game_picture}
                 alt={`${game.title}`}

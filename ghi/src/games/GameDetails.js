@@ -73,7 +73,6 @@ function GameDetails({ userData }) {
       checkFavorite();
       checkWishlist();
     }
-    checkWishlist();
   }, [game_id, userData?.user?.id, isUserLoggedIn]);
 
   async function addToFavorites() {

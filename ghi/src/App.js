@@ -15,8 +15,10 @@ import AllGames from "./games/Allgames.js";
 import TopRatedList from "./games/TopRatedList.js";
 import PlatformList from "./platforms/platformlist.js";
 import PlatformGames from "./platforms/platformgames.js";
+import useToken from "@galvanize-inc/jwtdown-for-react";
 
 function App() {
+  const { fetchWithCookie } = useToken();
   const [games, setGames] = useState([]);
   const [userData, setUserData] = useState({
     user: {
@@ -28,17 +30,27 @@ function App() {
   });
 
   async function getGames() {
-    const gamesUrl = "http://localhost:8000/games";
+    const gamesUrl = `${process.env.REACT_APP_API_HOST}/games`;
     const response = await fetch(gamesUrl);
     if (response.ok) {
       const data = await response.json();
       setGames(data.games);
     }
   }
+  const fetchData = async (e) => {
+    try {
+      const data = await fetchWithCookie(
+        `${process.env.REACT_APP_API_HOST}/token`
+      );
+      setUserData(data);
+    } catch (error) {
+      console.error("Error fetching the user data:", error);
+    }
+  };
 
   const [genre, setGenres] = useState([]);
   async function getGenres() {
-    const response = await fetch("http://localhost:8000/genre");
+    const response = await fetch(`${process.env.REACT_APP_API_HOST}/genre`);
     if (response.ok) {
       const data = await response.json();
       setGenres(data.genres);
@@ -47,7 +59,7 @@ function App() {
 
   const [platforms, setPlatforms] = useState([]);
   async function getPlatforms() {
-    const response = await fetch("http://localhost:8000/platforms");
+    const response = await fetch(`${process.env.REACT_APP_API_HOST}/platforms`);
     if (response.ok) {
       const data = await response.json();
       setPlatforms(data.platforms);
@@ -56,7 +68,7 @@ function App() {
 
   const [reviews, setReviews] = useState([]);
   async function getReviews() {
-    const reviewUrl = "http://localhost:8000/reviews/";
+    const reviewUrl = `${process.env.REACT_APP_API_HOST}/reviews/`;
 
     const response = await fetch(reviewUrl);
 
@@ -69,7 +81,7 @@ function App() {
   const [platformgames, setPlatformsGames] = useState([]);
   async function getPlatformGames(platform_id) {
     const response = await fetch(
-      `http://localhost:8000/platforms/${platform_id}/games`
+      `${process.env.REACT_APP_API_HOST}/platforms/${platform_id}/games`
     );
     if (response.ok) {
       const data = await response.json();
@@ -83,10 +95,13 @@ function App() {
     getGenres();
     getGames();
     getPlatforms();
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const domain = /https:\/\/[^/]+/;
+  const basename = process.env.PUBLIC_URL.replace(domain, "");
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Nav
         genre={genre}
         platforms={platforms}
@@ -120,6 +135,8 @@ function App() {
           path="/games/toprated"
           element={<TopRatedList games={games} reviews={reviews} />}
         />
+        <Route path="/genres/list" element={<GenreList genre={genre} />} />
+        <Route path="/genres/:genre_id/games" element={<GenreGames />} />
         <Route path="/genres/list" element={<GenreList genre={genre} />} />
         <Route path="/genres/:genre_id/games" element={<GenreGames />} />
         <Route

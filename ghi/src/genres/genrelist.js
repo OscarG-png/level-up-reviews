@@ -3,7 +3,6 @@ import React from "react";
 import { Card } from "flowbite-react";
 import { Link } from "react-router-dom";
 function GenreList({ genre }) {
-  console.log("genres:", genre);
   return (
     <div className="main h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>

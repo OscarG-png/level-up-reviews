@@ -25,7 +25,7 @@ function SignUp() {
     data.email = email;
     data.password = password;
 
-    const url = "http://localhost:8000/users/";
+    const url = `${process.env.REACT_APP_API_HOST}/users/`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),

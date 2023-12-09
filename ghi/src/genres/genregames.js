@@ -8,7 +8,7 @@ function GenreGames() {
 
   async function getGenresGames(genre_id) {
     const response = await fetch(
-      `http://localhost:8000/genres/${genre_id}/games`
+      `${process.env.REACT_APP_API_HOST}/genres/${genre_id}/games`
     );
     if (response.ok) {
       const data = await response.json();

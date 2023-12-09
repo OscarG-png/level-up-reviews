@@ -16,7 +16,9 @@ function GameDetails({ userData }) {
   };
   useEffect(() => {
     async function fetchGame() {
-      const response = await fetch(`http://localhost:8000/games/${game_id}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_HOST}/games/${game_id}`
+      );
       if (response.ok) {
         const data = await response.json();
         setGameDetails(data);
@@ -25,7 +27,7 @@ function GameDetails({ userData }) {
 
     async function fetchGameReviews() {
       const response = await fetch(
-        `http://localhost:8000/games/${game_id}/reviews`
+        `${process.env.REACT_APP_API_HOST}/games/${game_id}/reviews`
       );
       if (response.ok) {
         const data = await response.json();
@@ -35,7 +37,7 @@ function GameDetails({ userData }) {
 
     async function checkWishlist() {
       const response = await fetch(
-        `http://localhost:8000/users/${userData.user.id}/wishlist`
+        `${process.env.REACT_APP_API_HOST}/${userData.user.id}/wishlist`
       );
       if (response.ok) {
         const wishlistList = await response.json();
@@ -51,7 +53,7 @@ function GameDetails({ userData }) {
     }
     async function checkFavorite() {
       const response = await fetch(
-        `http://localhost:8000/users/${userData.user.id}/favorites`
+        `${process.env.REACT_APP_API_HOST}/users/${userData.user.id}/favorites`
       );
       if (response.ok) {
         const favoritesList = await response.json();
@@ -79,16 +81,19 @@ function GameDetails({ userData }) {
       return;
     }
     const userId = userData.user.id;
-    const response = await fetch(`http://localhost:8000/favorites`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: userId,
-        game_id: game_id,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HOST}/favorites`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          game_id: game_id,
+        }),
+      }
+    );
     if (response.ok) {
       setFavorite(true);
     }
@@ -99,12 +104,15 @@ function GameDetails({ userData }) {
       redirectToLogin();
       return;
     }
-    const response = await fetch(`http://localhost:8000/favorites/${game_id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HOST}/favorites/${game_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
       setFavorite(false);
@@ -117,7 +125,7 @@ function GameDetails({ userData }) {
       return;
     }
     const userId = userData.user.id;
-    const response = await fetch(`http://localhost:8000/wishlist`, {
+    const response = await fetch(`${process.env.REACT_APP_API_HOST}/wishlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -137,12 +145,15 @@ function GameDetails({ userData }) {
       redirectToLogin();
       return;
     }
-    const response = await fetch(`http://localhost:8000/wishlist/${game_id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HOST}/wishlist/${game_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
       setUserWishlist(false);

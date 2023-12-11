@@ -106,7 +106,8 @@ class ReviewRepository:
         except Exception:
             return {"message": "Could not find reviews"}
 
-    def get_all_for_game(self, game_id: int) -> List[ReviewsForGame]:
+    def get_all_for_game(
+            self, game_id: int) -> List[ReviewsForGame]:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(

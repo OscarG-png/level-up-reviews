@@ -59,7 +59,12 @@ class ReviewRepository:
                     result = db.execute(
                         """
                         INSERT INTO reviews
-                            (title, content, review_date, rating, game_id, user_id)
+                            (title,
+                            content,
+                            review_date,
+                            rating,
+                            game_id,
+                            user_id)
                         VALUES
                             (%s, %s, %s, %s, %s, %s)
                         RETURNING id

@@ -12,7 +12,7 @@ function AllGames({ games }) {
   }
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center my-8 text-gray-900 dark:text-white">All Games</h1>
+      <h1 className="text-center my-8 text-gray-900 dark:text-white">All Games</h1>
     <div className="main flex flex-wrap gap-5  h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       {games.map((game) => {
         return (

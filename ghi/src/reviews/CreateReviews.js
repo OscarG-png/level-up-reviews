@@ -15,9 +15,11 @@ function CreateReview({ userData }) {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
   const { token } = useAuthContext();
+  // const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // setError(null);
     const data = {};
     data.title = title;
     data.content = content;
@@ -25,7 +27,6 @@ function CreateReview({ userData }) {
     data.rating = rating;
     data.game_id = game_id;
     data.user_id = userData.user.id;
-
     const ReviewsUrl = `${process.env.REACT_APP_API_HOST}/reviews`;
     const fetchConfig = {
       method: "post",
@@ -35,13 +36,19 @@ function CreateReview({ userData }) {
         "Content-Type": "application/json",
       },
     };
-
-    const response = await fetch(ReviewsUrl, fetchConfig);
-    if (response.ok) {
-      setTitle("");
-      setContent("");
-      setRating("");
-      navigate(`/games/${game_id}`);
+    try {
+      const response = await fetch(ReviewsUrl, fetchConfig);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to create review");
+      }
+        setTitle("");
+        setContent("");
+        setRating("");
+        navigate(`/games/${game_id}`);
+    } catch (error) {
+      console.error("Unable to submit review", error);
+      // setError(error.message);
     }
   };
 

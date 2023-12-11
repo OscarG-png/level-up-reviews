@@ -13,6 +13,7 @@ function GenreMain({ genre}) {
             <Button.Group>
             {genre.map((genre) => (
               <Button
+                key={genre.id}
                 className="px-6 py-4 sm:px-3 sm:py-2 gradient-gray-to-black"
                 gradientMonochrome="grayToBlack"
               >

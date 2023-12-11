@@ -74,8 +74,9 @@ function Nav({ genre,platforms, games }) {
       <Sidebar aria-label="Sidebar with multi-level dropdown example">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <Sidebar.Item href="/" icon={LogoIcon}>
-            </Sidebar.Item>
+            <Link to='/'>
+            <Sidebar.Item icon={LogoIcon}/>
+            </Link>
             <Sidebar.Item >
               <input
                 type="text"
@@ -87,9 +88,9 @@ function Nav({ genre,platforms, games }) {
               {searchTerm && filteredGames.length > 0 && (
                 <div>
                   <p>Search Results:</p>
-                  <ul>
+                  <ul key='search_results'>
                     {filteredGames.slice(0, 5).map((game) => (
-                      <li key={game.id}>
+                      <li key={game.id + game.title}>
                         <Link to={`/games/${game.id}`}>{game.title}</Link>
                       </li>
                     ))}
@@ -97,40 +98,44 @@ function Nav({ genre,platforms, games }) {
                 </div>
               )}
             </Sidebar.Item>
-            <Sidebar.Item href="/games/all" icon={GiAbstract050}>
-              All Games
+            <Sidebar.Item icon={GiAbstract050}>
+             <Link to="/games/all">All Games</Link>
             </Sidebar.Item>
-            <Sidebar.Item href="/games/recent" icon={FaFire}>New Releases</Sidebar.Item>
-            <Sidebar.Item href="/games/toprated" icon={HiChevronDoubleUp}>
-              Top Rated
+            <Sidebar.Item icon={FaFire}>
+              <Link to="/games/recent">New Releases</Link>
+              </Sidebar.Item>
+            <Sidebar.Item icon={HiChevronDoubleUp}>
+              <Link to="/games/toprated">Top Rated</Link>
             </Sidebar.Item>
             <Sidebar.Collapse icon={BiSolidJoystick} label="Platforms">
               {platforms.map((p) => (
-                <Link key={p.id} to={`/platforms/${platforms.platform_id}/games`}>
-                  <Sidebar.Item>
-                    {p.name}
+                  <Sidebar.Item key={p.id + p.name}>
+                    <Link to={`/platforms/${p.id}/games`}>{p.name}</Link>
                   </Sidebar.Item>
-                </Link>
               ))}
-              <Sidebar.Item href="/platforms/list">All Platforms</Sidebar.Item>
+              <Sidebar.Item>
+                <Link to="/platforms/list">All Platforms</Link>
+              </Sidebar.Item>
             </Sidebar.Collapse>
             <Sidebar.Collapse icon={MdOutlineGridView} label="Genres">
               {genre.map((g) => {
                 return (
                   <Sidebar.Item
-                    key={g.genre_id}
+                    key={g.genre_id + g.title}
                     onClick={() => handleGenreClick(g.id)}
                   >
                     {g.title}
                   </Sidebar.Item>
                 );
               })}
-              <Sidebar.Item href="/genres/list">All Genres</Sidebar.Item>
+              <Sidebar.Item>
+                <Link to="/genres/list">All Genres</Link>
+              </Sidebar.Item>
             </Sidebar.Collapse>
             {token ? (
               <>
-                <Sidebar.Item href="/profile" icon={ImProfile}>
-                  My Profile
+                <Sidebar.Item icon={ImProfile}>
+                 <Link to="/profile">My Profile</Link>
                 </Sidebar.Item>
                 <Sidebar.Item
                   onClick={() => handleLogout()}
@@ -141,11 +146,11 @@ function Nav({ genre,platforms, games }) {
               </>
             ) : (
               <>
-                <Sidebar.Item href="/login" icon={HiArrowSmRight}>
-                  Log In
+                <Sidebar.Item icon={HiArrowSmRight}>
+                  <Link to="/login">Log In</Link>
                 </Sidebar.Item>
-                <Sidebar.Item href="/signup" icon={HiTable}>
-                  Sign Up
+                <Sidebar.Item icon={HiTable}>
+                  <Link to="/signup">Sign Up</Link>
                 </Sidebar.Item>
               </>
             )}

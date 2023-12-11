@@ -21,8 +21,16 @@ Today, I learned how that I was redirecting to localhost:3000 instead of getting
 
 ## December 1, 2023
 
-This week I worked on creating the game details. I have done some merge requests and merges of the other team members.
+This week I worked on creating the game details endpoint. I have done some merge requests and merges of the other team members.
 
 I worked on the component for front-end for the create reviews page and tried to start doing other components.
 
 I learned today how to redirect some tokens and make sure that it's authenticated.
+
+
+## December 8, 2023
+
+This week I worked on creating the platform games or games associated with a platform. I added new migrations so that some pictures would be able to be utilized. Was able to work with some of the error handling as well.
+I assisted with some debugging associated with some of the other group members associated with the game details and top-rated.
+
+I learned how to pass in some of the pictures through the migrations that was utilized.

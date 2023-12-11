@@ -31,11 +31,16 @@ function App() {
   });
 
   async function getGames() {
-    const gamesUrl = `${process.env.REACT_APP_API_HOST}/games`;
-    const response = await fetch(gamesUrl);
-    if (response.ok) {
+    try {
+      const gamesUrl = `${process.env.REACT_APP_API_HOST}/games`;
+      const response = await fetch(gamesUrl);
+      if (!response.ok) {
+          throw new Error("Failed to get games");
+      }
       const data = await response.json();
       setGames(data.games);
+    } catch (error) {
+    console.error("Error getting the games:", error);
     }
   }
   const fetchData = async (e) => {
@@ -51,48 +56,50 @@ function App() {
 
   const [genre, setGenres] = useState([]);
   async function getGenres() {
-    const response = await fetch(`${process.env.REACT_APP_API_HOST}/genre`);
-    if (response.ok) {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/genre`);
+      if (!response.ok) {
+        throw new Error("Failed to get genres");
+      }
       const data = await response.json();
       setGenres(data.genres);
+    } catch (error) {
+    console.error("Unable to get the platforms", error);
     }
   }
 
   const [platforms, setPlatforms] = useState([]);
   async function getPlatforms() {
-    const response = await fetch(`${process.env.REACT_APP_API_HOST}/platforms`);
-    if (response.ok) {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/platforms`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch platforms");
+      }
       const data = await response.json();
       setPlatforms(data.platforms);
+    } catch (error) {
+      console.error("Unable to fetch the platforms", error);
     }
   }
 
   const [reviews, setReviews] = useState([]);
   async function getReviews() {
-    const reviewUrl = `${process.env.REACT_APP_API_HOST}/reviews/`;
-
+    try {
+    const reviewUrl = `${process.env.REACT_APP_API_HOST}/reviews`;
     const response = await fetch(reviewUrl);
-
-    if (response.ok) {
+    if (!response.ok) {
+      throw new Error("Failed to get reviews");
+      }
       const data = await response.json();
       setReviews(data.reviews);
+    } catch (error) {
+      console.error("Unable to get the reviews", error);
     }
   }
 
-  const [platformgames, setPlatformsGames] = useState([]);
-  async function getPlatformGames(platform_id) {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_HOST}/platforms/${platform_id}/games`
-    );
-    if (response.ok) {
-      const data = await response.json();
-      setPlatformsGames(data.games_platforms);
-    }
-  }
 
 
   useEffect(() => {
-    getPlatformGames();
     getReviews();
     getGenres();
     getGames();
@@ -147,10 +154,7 @@ function App() {
         <Route
           path="/platforms/:platform_id/games"
           element={
-            <PlatformGames
-              platforms={platforms}
-              platformgames={platformgames}
-            />
+            <PlatformGames platforms={platforms} />
           }
         />
       </Routes>

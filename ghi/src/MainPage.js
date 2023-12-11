@@ -7,7 +7,7 @@ function MainPage({ games, genre, genregames, reviews }) {
     else if (rating >= 60 && rating <= 79) return { color: '#f1c40f' }
     else return { color: 'green' }
   }
-                    console.log(reviews)
+
   return (
     <div className="main bg-white dark:bg-gray-800 text-black dark:text-white shadow-xl p-5">
       <h1  className="p-5 text-center text-outline text-customPurple" style={{ fontSize: '4rem', fontWeight: 'bold'  }}>Level up reviews!</h1>
@@ -36,7 +36,7 @@ function MainPage({ games, genre, genregames, reviews }) {
                   </div>
                 </div>
                 <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 "> <span className="font-semibold" mb-3>Rating: <span style={ratingColor(review.rating)}>{review.rating}</span></span></p>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 "> <span className="font-semibold mb-3" >Rating: <span style={ratingColor(review.rating)}>{review.rating}</span></span></p>
                 </div>
               </li>
             ))}

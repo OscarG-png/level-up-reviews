@@ -18,28 +18,34 @@ function GenreGames() {
   useEffect(() => {
     getGenresGames(genre_id);
   }, [genre_id]);
+
+  if (!genregames) {
+    return <div>Loading games...</div>;
+  }
+  if (genregames.length === 0) {
+    return <div>No games available for this genre.</div>;
+  }
   return (
     <div className=" main  h-screen flex flex-wrap gap-5 bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-        <h2>List of {genregames.name} games</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+          List of {genregames.name} games
+        </h2>
         <div className="flex flex-wrap gap-5 ">
           {genregames.map((game, index) => (
-          <Link to={`/games/${game.game_id}`}>
+          <Link key= {game.game_id} to={`/games/${game.game_id}`}>
             <Card
+              key= {game.game_id}
               className="max-w-sm flex flex-wrap gap-5 "
               imgAlt="Meaningful alt text for an image that is not purely decorative"
               imgSrc={game.game_picture}
-              imgClass="object-cover w-full h-full"
             >
               <h5
                 key={game.game_id + index}
-                className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center"
               >
                 {game.title}
               </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                place holder for description
-              </p>
             </Card>
            </Link>
           ))}

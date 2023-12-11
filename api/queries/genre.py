@@ -16,39 +16,45 @@ class GenreOut(BaseModel):
 
 class GenreRepository:
     def create(self, genre: GenreIn) -> GenreOut:
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                result = db.execute(
-                    """
-                    INSERT INTO genre
-                        (title, description)
-                    VALUES
-                        (%s, %s)
-                    RETURNING id
-                    """,
-                    [genre.title, genre.description],
-                )
-                id = result.fetchone()[0]
-                old_data = genre.dict()
-                return GenreOut(id=id, **old_data)
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        INSERT INTO genre
+                            (title, description)
+                        VALUES
+                            (%s, %s)
+                        RETURNING id
+                        """,
+                        [genre.title, genre.description],
+                    )
+                    id = result.fetchone()[0]
+                    old_data = genre.dict()
+                    return GenreOut(id=id, **old_data)
+        except Exception:
+            return {"message": "Could not create genre"}
 
     def get_all(self) -> List[GenreOut]:
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                db.execute(
-                    """
-                    SELECT id, title, description
-                    FROM genre
-                    ORDER BY title
-                    """
-                )
-                records = db.fetchall()
-                genres = [
-                    GenreOut(
-                        id=record[0],
-                        title=record[1],
-                        description=record[2],
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        SELECT id, title, description
+                        FROM genre
+                        ORDER BY title
+                        """
                     )
-                    for record in records
-                ]
-                return genres
+                    records = db.fetchall()
+                    genres = [
+                        GenreOut(
+                            id=record[0],
+                            title=record[1],
+                            description=record[2],
+                        )
+                        for record in records
+                    ]
+                    return genres
+        except Exception:
+            return {"message": "Could not find genres"}

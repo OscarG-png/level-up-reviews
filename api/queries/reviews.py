@@ -64,7 +64,8 @@ class ReviewRepository:
                             review_date,
                             rating,
                             game_id,
-                            user_id)
+                            user_id
+                            )
                         VALUES
                             (%s, %s, %s, %s, %s, %s)
                         RETURNING id

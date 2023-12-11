@@ -21,3 +21,5 @@ for my genres carousel i was able to make it so if you click on a specific genre
 today i had a boat load of an error that i still am unable to fix
 there was also a bug that messed up my dark mode so not the greatest day
 but i was also able to get some work done on a few things such as removing a game that you wish listed and favorited
+
+12/11/2023

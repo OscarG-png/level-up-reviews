@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 function GenreGames() {
   let { genre_id } = useParams();
   const [genregames, setGenresGames] = useState([]);
-
   async function getGenresGames(genre_id) {
     const response = await fetch(
       `${process.env.REACT_APP_API_HOST}/genres/${genre_id}/games`
@@ -39,6 +38,7 @@ function GenreGames() {
               className="max-w-sm flex flex-wrap gap-5 "
               imgAlt="Meaningful alt text for an image that is not purely decorative"
               imgSrc={game.game_picture}
+              imgClass="object-cover w-full h-full"
             >
               <h5
                 key={game.game_id + index}

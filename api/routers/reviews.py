@@ -48,3 +48,11 @@ def get_user_reviews(user_id: int, repo: ReviewRepository = Depends()):
     return {
         "user_reviews": user_reviews
     }
+
+
+@router.get("/games/reviews/main", response_model=dict)
+def get_all_reviews_for_main(repo: ReviewRepository = Depends()):
+    reviews = repo.get_all_for_main()
+    return {
+        "reviews": reviews
+    }

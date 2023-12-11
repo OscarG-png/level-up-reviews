@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logocolor from "./logocolor.png"
-
+import logocolor from "./logocolor.png";
+import CustomAlert from "../alerts/signupalert";
 
 function SignUp() {
   const [userName, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const noAvatarImage = "https://ionicframework.com/docs/img/demos/avatar.svg";
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleUserNameChange = async (event) => {
     const { value } = event.target;
@@ -27,6 +29,7 @@ function SignUp() {
     data.username = userName;
     data.email = email;
     data.password = password;
+    data.profile_picture = noAvatarImage;
 
     const url = `${process.env.REACT_APP_API_HOST}/users/`;
     const fetchConfig = {
@@ -36,21 +39,30 @@ function SignUp() {
         "Content-Type": "application/json",
       },
     };
-    const response = await fetch(url, fetchConfig);
-    if (response.ok) {
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      navigate("/login");
+    try {
+      const response = await fetch(url, fetchConfig);
+      if (response.ok) {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        navigate("/login");
+      } else {
+        const errorData = await response.json();
+        console.error("Signup failed", errorData);
+      }
+    } catch (error) {
+      setError(error);
     }
   };
 
-  const LogoIcon = () => (
-    <img src={logocolor} alt="Level Up Reviews Logo"/>
-  );
+  const handleCloseAlert = () => {
+    setError("test");
+  };
+  const LogoIcon = () => <img src={logocolor} alt="Level Up Reviews Logo" />;
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8  h-screen w-full bg-white dark:bg-gray-800 text-black dark:text-white">
+      {error && <CustomAlert message={error} onClose={handleCloseAlert} />}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <LogoIcon />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">

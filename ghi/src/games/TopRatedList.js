@@ -3,16 +3,26 @@ import React from "react";
 import { Card } from "flowbite-react";
 import { Link } from "react-router-dom";
 function TopRatedList({ games, reviews }) {
-  const hasRatingAbove90 = (game) => {
-    return reviews.some(
+  const averageRatingAbove90 = (game) => {
+    const relevantReviews = reviews.filter(
       (review) => review.game_id === game.id && review.rating > 90
     );
-  };
 
-  const filteredGames = games.filter(hasRatingAbove90);
+    if (relevantReviews.length > 0) {
+      const totalRating = relevantReviews.reduce(
+        (sum, review) => sum + review.rating,
+        0
+      );
+
+      return totalRating / relevantReviews.length;
+    }
+
+    return 0; // or any default value if there are no reviews above 90
+  };
+  const filteredGames = games.filter(averageRatingAbove90);
 
   return (
-    <div className="main h-screen w-full bg-white dark:bg-gray-800 text-black dark:text-white">
+    <div className="main h-screen w-full bg-white dark:bg-gray-800 text-customPurple ">
       <div>
         <h2>Top Rated Games</h2>
         <div className="flex flex-wrap gap-5">
@@ -21,7 +31,7 @@ function TopRatedList({ games, reviews }) {
               <Card
                 className="max-w-sm"
                 imgAlt="Meaningful alt text for an image that is not purely decorative"
-                imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAczF9JgfmT2mL7DOldJCsb5_NRcgiQA7vvdBc_h1B2g&s"
+                imgSrc={g.game_picture}
               >
                 <div>
                   <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

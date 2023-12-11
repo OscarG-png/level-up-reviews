@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, Button, Avatar } from "flowbite-react";
+import DetailAlert from "../alerts/gameDetailAlerts";
 
 function GameDetails({ userData }) {
   const { game_id } = useParams();
@@ -9,7 +10,10 @@ function GameDetails({ userData }) {
   const [gameReviews, setGameReviews] = useState([]);
   const [favorite, setFavorite] = useState(false);
   const [wishlist, setUserWishlist] = useState(false);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('')
   const isUserLoggedIn = userData && userData.user && userData.user.id;
+
 
   const redirectToLogin = () => {
     navigate("/login");
@@ -37,7 +41,7 @@ function GameDetails({ userData }) {
 
     async function checkWishlist() {
       const response = await fetch(
-        `${process.env.REACT_APP_API_HOST}/${userData.user.id}/wishlist`
+        `${process.env.REACT_APP_API_HOST}/users/${userData.user.id}/wishlist`
       );
       if (response.ok) {
         const wishlistList = await response.json();
@@ -77,7 +81,8 @@ function GameDetails({ userData }) {
 
   async function addToFavorites() {
     if (!isUserLoggedIn) {
-      redirectToLogin();
+      setAlertMessage("Please Log In")
+      setIsAlertVisible(true)
       return;
     }
     const userId = userData.user.id;
@@ -121,7 +126,8 @@ function GameDetails({ userData }) {
 
   async function addToWishlist() {
     if (!isUserLoggedIn) {
-      redirectToLogin();
+      setAlertMessage("Please Log In")
+      setIsAlertVisible(true)
       return;
     }
     const userId = userData.user.id;
@@ -161,7 +167,8 @@ function GameDetails({ userData }) {
   }
   const handleCreateReview = () => {
     if (!isUserLoggedIn) {
-      redirectToLogin();
+      setAlertMessage("Please Log In")
+      setIsAlertVisible(true)
     } else {
       navigate(`/games/${game_id}/reviews`);
     }
@@ -171,6 +178,17 @@ function GameDetails({ userData }) {
     if (rating < 60) return { color: "red" };
     else if (rating >= 60 && rating <= 79) return { color: "#f1c40f" };
     else return { color: "green" };
+  };
+
+  const calculateAverageRating = () => {
+    if (gameReviews.length === 0) {
+      return 0;
+    }
+
+    const totalRating = gameReviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = totalRating / gameReviews.length;
+
+    return Math.round(averageRating)
   };
 
   return (
@@ -197,33 +215,38 @@ function GameDetails({ userData }) {
             <h5 className="text-3xl font-bold tracking-tight text-white">
               {gameDetails.title}
             </h5>
+              <h6 className="text-lg font-semibold text-white">
+                Average Rating: {calculateAverageRating()}
+              </h6>
             <h6 className="font-normal text-gray-200 text-lg">
               Released: {gameDetails.release_date}
             </h6>
 
             <div className="flex gap-4 mt-4">
               <Button
-                color="purple"
+                className="bg-customPurple dark:bg-customPurple"
                 outline={wishlist}
-                hover="bg-purple-700 text-white"
+                hover="bg-fuchsia-700 text-white"
                 onClick={wishlist ? removeFromWishlist : addToWishlist}
               >
                 {wishlist ? "Remove from Wishlist" : "Add to Wishlist"}
               </Button>
               <Button
-                color="blue"
+                className="bg-customPurple dark:bg-customPurple"
                 outline={favorite}
-                hover="bg-purple-700 text-white"
+                hover="bg-fuchsia-700 text-white"
                 onClick={favorite ? removeFromFavorites : addToFavorites}
               >
                 {favorite ? "Remove from Favorite" : "Add to Favorite"}
               </Button>
-              <Button onClick={handleCreateReview}>Create Review</Button>
+              <Button className="bg-customPurple dark:bg-customPurple" onClick={handleCreateReview}>Create Review</Button>
             </div>
           </div>
         </div>
       </Card>
-
+      {isAlertVisible && (
+        <DetailAlert message={alertMessage} onClose={() =>setIsAlertVisible(false)} />
+      )}
       <div className="w-full max-w-4xl">
         <Card className="bg-gray-50 shadow-2xl bg-gradient-to-b from-gray-600 to-zinc-900 rounded-xl">
           <div className="p-4">

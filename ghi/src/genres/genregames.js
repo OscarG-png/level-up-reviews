@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Card, Button } from "flowbite-react";
+import { Card } from "flowbite-react";
 import { Link, useParams } from "react-router-dom";
 function GenreGames() {
   let { genre_id } = useParams();
@@ -26,34 +26,28 @@ function GenreGames() {
     return <div>No games available for this genre.</div>;
   }
   return (
-    <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
+    <div className=" main  h-screen flex flex-wrap gap-5 bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
         <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
           List of {genregames.name} games
         </h2>
         <div className="flex flex-wrap gap-5 ">
           {genregames.map((game, index) => (
+          <Link key= {game.game_id} to={`/games/${game.game_id}`}>
             <Card
-              key={game.game_id}
-              className="card-custom max-w-sm basis-1/2"
+              key= {game.game_id}
+              className="max-w-sm flex flex-wrap gap-5 "
+              imgAlt="Meaningful alt text for an image that is not purely decorative"
+              imgSrc={game.game_picture}
             >
-              <img
-                src={game.game_picture}
-                alt={game.title}
-                className="game-image"
-              />
               <h5
                 key={game.game_id + index}
                 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center"
               >
                 {game.title}
               </h5>
-              <div className="flex justify-center">
-              <Link to={`/games/${game.game_id}`}>
-                <Button>See Details</Button>
-              </Link>
-              </div>
             </Card>
+           </Link>
           ))}
         </div>
       </div>

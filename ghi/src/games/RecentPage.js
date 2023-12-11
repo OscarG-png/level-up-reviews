@@ -1,5 +1,6 @@
 "use-client";
-import { Button, Card } from "flowbite-react";
+import { Card } from "flowbite-react";
+import { Link } from "react-router-dom";
 function RecentPage({ games }) {
   let currentDate = new Date();
   let filteredGames = games.filter((game) => {
@@ -10,17 +11,21 @@ function RecentPage({ games }) {
     );
     return daysDifference <= 60;
   });
-  function formatedDate(date) {
-    return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    });
-  }
+    function formatedDate(date) {
+      return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      });
+    }
   return (
-    <div className="main flex gap-5">
-      {filteredGames.map((game) => {
+    <div className="main h-screen w-screen flex gap-5 bg-white dark:bg-gray-800 text-black dark:text-white">
+      <div>
+         <h2>List of games</h2>
+        <div className="flex flex-wrap gap-5 ">
+      {filteredGames.map((game,index) => {
         return (
+          <Link  to={`/games/${game.id}`} key={game.id + index}>
           <Card
             key={game.id}
             className="max-w-sm basis-1/2"
@@ -33,10 +38,12 @@ function RecentPage({ games }) {
             <p className="font-normal text-gray-700 dark:text-gray-400">
               Released on {formatedDate(game.release_date)}
             </p>
-            <Button>Check it out</Button>
           </Card>
+          </Link>
         );
       })}
+    </div>
+    </div>
     </div>
   );
 }

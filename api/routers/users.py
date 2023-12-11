@@ -60,11 +60,16 @@ async def create_user(
     response: Response,
     repo: UserRepository = Depends(),
 ):
-    hashed_password = authenticator.hash_password(users.password)
-    user = repo.create(users, hashed_password)
-    form = AccountForm(username=users.username, password=users.password)
-    token = await authenticator.login(response, request, form, repo)
-    return AccountToken(user=user, **token.dict())
+    try:
+        hashed_password = authenticator.hash_password(users.password)
+        user = repo.create(users, hashed_password)
+        form = AccountForm(username=users.username, password=users.password)
+        token = await authenticator.login(response, request, form, repo)
+        return AccountToken(user=user, **token.dict())
+    except KeyError:
+        return {
+            "failed to create user"
+        }
 
 
 @router.get("/users", response_model=dict)
@@ -92,5 +97,10 @@ async def update_user(
     response: Response,
     repo: UserRepository = Depends(),
 ):
-    user = repo.update(user, user_id)
-    return user
+    try:
+        user = repo.update(user, user_id)
+        return user
+    except KeyError:
+        return {
+            "failed to update user": KeyError
+        }

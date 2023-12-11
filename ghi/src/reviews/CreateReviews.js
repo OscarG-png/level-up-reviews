@@ -15,11 +15,10 @@ function CreateReview({ userData }) {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
   const { token } = useAuthContext();
-  // const [error, setError] = useState(null);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setError(null);
     const data = {};
     data.title = title;
     data.content = content;
@@ -48,7 +47,6 @@ function CreateReview({ userData }) {
         navigate(`/games/${game_id}`);
     } catch (error) {
       console.error("Unable to submit review", error);
-      // setError(error.message);
     }
   };
 

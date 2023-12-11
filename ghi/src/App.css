@@ -12,3 +12,27 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+:root {
+  --color-background-light: #fafafa;
+  --color-foreground-light: #1f2023;
+
+  --color-background-dark: #1f2023;
+  --color-foreground-dark: #efefef;
+}
+
+body {
+  --color-background: #fafafa;
+  --color-foreground: #1f2023;
+}
+body.dark {
+  --color-background: #1f2023;
+  --color-foreground: #efefef;
+}
+
+.dark-mode-toggle-container {
+  position: fixed;
+  bottom: 16px; /* Adjust as needed */
+  transform: translateX(-50%);
+  z-index: 1000; /* Adjust as needed */
+}

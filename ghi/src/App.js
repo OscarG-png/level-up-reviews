@@ -17,6 +17,7 @@ import PlatformList from "./platforms/platformlist.js";
 import PlatformGames from "./platforms/platformgames.js";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 
+
 function App() {
   const { fetchWithCookie } = useToken();
   const [games, setGames] = useState([]);
@@ -96,24 +97,9 @@ function App() {
     }
   }
 
-  const [platformgames, setPlatformsGames] = useState([]);
-  async function getPlatformGames(platform_id) {
-    try {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_HOST}/platforms/${platform_id}/games`
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch platform games");
-      }
-      const data = await response.json();
-      setPlatformsGames(data.games_platforms);
-    } catch (error) {
-    console.error("Unable to fetch the platform games", error);
-    }
-  }
+
+
   useEffect(() => {
-    const defaultPlatformId = 1;
-    getPlatformGames(defaultPlatformId);
     getReviews();
     getGenres();
     getGames();
@@ -128,16 +114,17 @@ function App() {
       <Nav
         genre={genre}
         platforms={platforms}
-        platformgames={getPlatformGames}
+        games={games}
       />
       <Routes>
         <Route
           index
           path="/"
-          element={<MainPage games={games} genre={genre} />}
+          element={<MainPage games={games} genre={genre} reviews={reviews} />}
         />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/games/recent" element={<RecentPage games={games} />} />
         <Route
           path="/games/:game_id"
           element={<GameDetails userData={userData} />}
@@ -160,8 +147,6 @@ function App() {
         />
         <Route path="/genres/list" element={<GenreList genre={genre} />} />
         <Route path="/genres/:genre_id/games" element={<GenreGames />} />
-        <Route path="/genres/list" element={<GenreList genre={genre} />} />
-        <Route path="/genres/:genre_id/games" element={<GenreGames />} />
         <Route
           path="/platforms/list"
           element={<PlatformList platforms={platforms} />}
@@ -169,10 +154,7 @@ function App() {
         <Route
           path="/platforms/:platform_id/games"
           element={
-            <PlatformGames
-              platforms={platforms}
-              platformgames={platformgames}
-            />
+            <PlatformGames platforms={platforms} />
           }
         />
       </Routes>

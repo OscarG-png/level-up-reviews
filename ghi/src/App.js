@@ -17,6 +17,7 @@ import PlatformList from "./platforms/platformlist.js";
 import PlatformGames from "./platforms/platformgames.js";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 
+
 function App() {
   const { fetchWithCookie } = useToken();
   const [games, setGames] = useState([]);
@@ -88,9 +89,10 @@ function App() {
       setPlatformsGames(data.games_platforms);
     }
   }
+
+
   useEffect(() => {
-    const defaultPlatformId = 1;
-    getPlatformGames(defaultPlatformId);
+    getPlatformGames();
     getReviews();
     getGenres();
     getGames();
@@ -105,16 +107,17 @@ function App() {
       <Nav
         genre={genre}
         platforms={platforms}
-        platformgames={getPlatformGames}
+        games={games}
       />
       <Routes>
         <Route
           index
           path="/"
-          element={<MainPage games={games} genre={genre} />}
+          element={<MainPage games={games} genre={genre} reviews={reviews} />}
         />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/games/recent" element={<RecentPage games={games} />} />
         <Route
           path="/games/:game_id"
           element={<GameDetails userData={userData} />}
@@ -135,8 +138,6 @@ function App() {
           path="/games/toprated"
           element={<TopRatedList games={games} reviews={reviews} />}
         />
-        <Route path="/genres/list" element={<GenreList genre={genre} />} />
-        <Route path="/genres/:genre_id/games" element={<GenreGames />} />
         <Route path="/genres/list" element={<GenreList genre={genre} />} />
         <Route path="/genres/:genre_id/games" element={<GenreGames />} />
         <Route

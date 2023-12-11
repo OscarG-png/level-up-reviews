@@ -16,8 +16,10 @@ code {
 @tailwind utilities;
 
 .main {
-  margin-left: 255px;
+  padding-left: 300px;
   position: relative;
+  padding-right: 300px;
+  padding-bottom: 200px;
 }
 
 .sidebar {
@@ -28,30 +30,20 @@ z-index: 100
 
 }
 
-.darkbutton{
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  width: 100%;
+.gradient-gray-to-black {
+  background: linear-gradient(to left, #A080B7, #8B3C7F)
 }
 
-.toggle-button {
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+.text-outline {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-.toggle-button.on {
-  color: #fff;
-}
-
-.toggle-button.off {
-  background-color: #fff;
-  color: #333;
+.custom-toggle .react-toggle-track {
+  background-color: #afadad;
 }
 
 .game-image {
-  width: 100%;  
+  width: 100%;
   height: 200px;
   object-fit: cover;
 }
@@ -95,4 +87,53 @@ z-index: 100
     width: 100%;
     padding: 10px;
   }
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Set your desired background color */
+  padding: 10px; /* Set your desired padding */
+}
+
+.navbar-content {
+  max-width: 600px; /* Set your desired max width */
+  width: 100%;
+}
+
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8B3C7F;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+/* For Firefox */
+* {
+  scrollbar-color: #8B3C7F #f0f0f0;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #8B3C7F;
+  border-radius: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+body {
+  overflow-y: scroll;
 }

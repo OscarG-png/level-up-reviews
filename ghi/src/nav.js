@@ -4,7 +4,6 @@ import {
   HiArrowSmRight,
   HiArrowSmLeft,
   HiChevronDoubleUp,
-  HiChartBar,
   HiTable,
 } from "react-icons/hi";
 import { GiAbstract050 } from "react-icons/gi";
@@ -12,33 +11,29 @@ import { MdOutlineGridView } from "react-icons/md";
 import { BiSolidJoystick } from "react-icons/bi";
 import { FaFire } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import React, { useEffect, useState } from "react";
+import DarkModeToggle from "./darkmode/DarkModeToggle.js";
+import logocolortwo from "./logocolortwo.png"
 
-function Nav({ genre, genregames, platforms, platformgames }) {
-  const [darkMode, setDarkMode] = useState(false);
+
+function Nav({ genre,platforms, games }) {
+
   const { token, logout, isLoading } = useToken();
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setDarkMode("dark");
-    } else {
-      setDarkMode("light");
-    }
-  }, []);
+  const [isDarkMode, setIsDarkMode] = useState(
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
 
-  const switchDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
   };
+
 
   const navigate = useNavigate();
 
@@ -51,10 +46,24 @@ function Nav({ genre, genregames, platforms, platformgames }) {
     navigate(`/genres/${genre_id}/games`);
   };
 
-  const handlePlatformClick = (platform_id) => {
-    platformgames(platform_id);
-    navigate(`/platforms/${platform_id}/games`);
+  const LogoIcon = () => (
+    <img src={logocolortwo} alt="Level Up Reviews Logo"/>
+  );
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredGames, setFilteredGames] = useState([]);
+
+  useEffect(() => {
+    const filtered = games.filter((game) =>
+      game.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredGames(filtered);
+  }, [searchTerm, games]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
+
 
   if (isLoading) {
     return null;
@@ -65,31 +74,48 @@ function Nav({ genre, genregames, platforms, platformgames }) {
       <Sidebar aria-label="Sidebar with multi-level dropdown example">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <Sidebar.Item href="/" icon={HiChartBar}>
-              Level Up Reviews
+            <Sidebar.Item href="/" icon={LogoIcon}>
+            </Sidebar.Item>
+            <Sidebar.Item >
+              <input
+                type="text"
+                placeholder="Search games"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="text-black"
+              />
+              {searchTerm && filteredGames.length > 0 && (
+                <div>
+                  <p>Search Results:</p>
+                  <ul>
+                    {filteredGames.slice(0, 5).map((game) => (
+                      <li key={game.id}>
+                        <Link to={`/games/${game.id}`}>{game.title}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </Sidebar.Item>
             <Sidebar.Item href="/games/all" icon={GiAbstract050}>
               All Games
             </Sidebar.Item>
-            <Sidebar.Item icon={FaFire}>New Releases</Sidebar.Item>
+            <Sidebar.Item href="/games/recent" icon={FaFire}>New Releases</Sidebar.Item>
             <Sidebar.Item href="/games/toprated" icon={HiChevronDoubleUp}>
               Top Rated
             </Sidebar.Item>
             <Sidebar.Collapse icon={BiSolidJoystick} label="Platforms">
-              {platforms.slice(0, 4).map((p) => {
-                return (
-                  <Sidebar.Item
-                    key={p.platform_id}
-                    onClick={() => handlePlatformClick(p.id)}
-                  >
+              {platforms.map((p) => (
+                <Link key={p.id} to={`/platforms/${platforms.platform_id}/games`}>
+                  <Sidebar.Item>
                     {p.name}
                   </Sidebar.Item>
-                );
-              })}
+                </Link>
+              ))}
               <Sidebar.Item href="/platforms/list">All Platforms</Sidebar.Item>
             </Sidebar.Collapse>
             <Sidebar.Collapse icon={MdOutlineGridView} label="Genres">
-              {genre.slice(0, 5).map((g) => {
+              {genre.map((g) => {
                 return (
                   <Sidebar.Item
                     key={g.genre_id}
@@ -123,13 +149,10 @@ function Nav({ genre, genregames, platforms, platformgames }) {
                 </Sidebar.Item>
               </>
             )}
-            <Sidebar.Item
-              onClick={switchDarkMode}
-              className={`toggle-button ${
-                darkMode ? "on" : "off"
-              } darkbutton fixed-button-container`}
-            >
-              {darkMode ? "Light Mode" : "Dark Mode"}
+            <Sidebar.Item>
+            <div className="dark-mode-toggle-container">
+              <DarkModeToggle onChange={toggleDarkMode} checked={isDarkMode} />
+            </div>
             </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>

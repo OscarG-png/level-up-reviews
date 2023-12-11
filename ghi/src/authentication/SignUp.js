@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logocolor from "./logocolor.png"
+
+
 function SignUp() {
   const [userName, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -41,15 +44,16 @@ function SignUp() {
       navigate("/login");
     }
   };
+
+  const LogoIcon = () => (
+    <img src={logocolor} alt="Level Up Reviews Logo"/>
+  );
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8  h-screen w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
-        />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+        <LogoIcon />
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
           Sign up for your account
         </h2>
       </div>
@@ -64,7 +68,7 @@ function SignUp() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
             >
               Username
             </label>
@@ -83,7 +87,7 @@ function SignUp() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
             >
               Email address
             </label>
@@ -101,10 +105,10 @@ function SignUp() {
             </div>
           </div>
           <div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
               >
                 Password
               </label>
@@ -125,7 +129,7 @@ function SignUp() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-md bg-customPurple px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-fuchsia-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign up
             </button>

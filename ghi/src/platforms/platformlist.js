@@ -12,7 +12,7 @@ function PlatformList({platforms}) {
   }
 
   return (
-    <div className="main">
+    <div className="main h-screen bg-white dark:bg-gray-800 text-black dark:text-white">
     <h2>Choose a Platform</h2>
       <div className="flex flex-wrap gap-5 h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white" >
           {platforms.map( p => {

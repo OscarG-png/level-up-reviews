@@ -1,26 +1,30 @@
 "use client";
 import React from "react";
-import { Carousel } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 
-function GenreMain({ genre, genregames }) {
-  return (
-    <>
-      <h2 className="p-5 text-center">Genres</h2>
-      <div className="h-56 sm:h-80 xl:h-80 2xl:h-96">
-        <Carousel slideInterval={4000}>
-          {genre.map((genre, index) => (
-            <Link key={genre.id + index} to={`/genres/${genre.id}/games`}>
-              <img
-                key={genre.id}
-                src="https://1000logos.net/wp-content/uploads/2020/09/Final-Fantasy-XIV-Logo.jpg"
-                alt={genre.title}
-              />
-            </Link>
-          ))}
-        </Carousel>
-      </div>
-    </>
-  );
-}
-export default GenreMain;
+function GenreMain({ genre}) {
+    return (
+        <div className="container mx-auto">
+        <h2 className="p-5 text-center text-outline text-customPurple" style={{ fontSize: '2.5rem', fontWeight: 'bold'  }}>
+            Genres
+        </h2>
+        <div className="flex flex-wrap gap-2">
+            <Button.Group>
+            {genre.map((genre) => (
+              <Button
+                className="px-6 py-4 sm:px-3 sm:py-2 gradient-gray-to-black"
+                gradientMonochrome="grayToBlack"
+              >
+                <Link to={`/genres/${genre.id}/games`} key={genre.id}>
+                {genre.title}
+                </Link>
+              </Button>
+            ))}
+            </Button.Group>
+        </div>
+        </div>
+    );
+    }
+
+    export default GenreMain;

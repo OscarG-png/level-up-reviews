@@ -46,6 +46,19 @@ class ReviewsForGame(BaseModel):
     profile_picture: str
 
 
+class ReviewsForMain(BaseModel):
+    id: int
+    title: str
+    content: str
+    review_date: date
+    rating: int
+    game_id: int
+    user_id: int
+    username: str
+    profile_picture: str
+    game_title: str
+
+
 class GameRatingOut(BaseModel):
     title: str
     average_rating: float
@@ -64,8 +77,7 @@ class ReviewRepository:
                             review_date,
                             rating,
                             game_id,
-                            user_id
-                            )
+                            user_id)
                         VALUES
                             (%s, %s, %s, %s, %s, %s)
                         RETURNING id
@@ -187,6 +199,42 @@ class ReviewRepository:
                         game_id=record[5],
                         user_id=record[6],
                         game_title=record[7],
+                    )
+                    for record in db
+                ]
+
+    def get_all_for_main(self) -> List[ReviewsForMain]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                SELECT r.id,
+                     r.title,
+                     r.content,
+                     r.review_date,
+                    r.rating,
+                    r.game_id,
+                    r.user_id,
+                    u.username,
+                    u.profile_picture,
+                    g.title
+                FROM reviews r
+                JOIN users u ON r.user_id = u.id
+                JOIN games g ON r.game_id = g.id
+                    """
+                )
+                return [
+                    ReviewsForMain(
+                        id=record[0],
+                        title=record[1],
+                        content=record[2],
+                        review_date=record[3],
+                        rating=record[4],
+                        game_id=record[5],
+                        user_id=record[6],
+                        username=record[7],
+                        profile_picture=record[8],
+                        game_title=record[9]
                     )
                     for record in db
                 ]

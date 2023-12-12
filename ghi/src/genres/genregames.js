@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 function GenreGames() {
   let { genre_id } = useParams();
   const [genregames, setGenresGames] = useState([]);
-
   async function getGenresGames(genre_id) {
     const response = await fetch(
       `${process.env.REACT_APP_API_HOST}/genres/${genre_id}/games`

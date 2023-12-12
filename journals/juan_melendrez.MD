@@ -39,4 +39,17 @@ Last week and the day of this journal entry, I worked on creating a couple of mo
 
 For the front-end, I worked between the user profile and the game details page. I worked on getting the the user information to populate a portion of the page, and also use the get all reviews endpoint to get all the reviews for the logged in user and display it on the page. In addition, I also made use of the favorites and wishlist API's to populate the user profile's favorites and wishlist sections. I'm currently working on the edit functinality. This has been the most troubling since making a PUT request for our current user info. requires a password, which I don't know how to access currently. I will look towards my team to help problem solve this.
 
-In addition to the user profile, I worked on the game details page, I used the get game endpoint to populate the page with some game information, I also uses the a reviews endpoint which takes the game_id as a parameter to display all the reviews for a specific game. I am currently working on the favorite + wishlist functionality so when a user clicks on either/or, it is added to their favorites/wishlist. 
+In addition to the user profile, I worked on the game details page, I used the get game endpoint to populate the page with some game information, I also uses the a reviews endpoint which takes the game_id as a parameter to display all the reviews for a specific game. I am currently working on the favorite + wishlist functionality so when a user clicks on either/or, it is added to their favorites/wishlist.
+
+
+## December 11, 2023
+
+Last week and today, I worked on the following tasks:
+
+    *Adding a create review button to the game detils page, created a create review unit test, added edit functionality to the user profile, added dynamic images to the user game's favorites + wishlist, add game details link to all-games list, added error handling to the reviews page and fixed sign up page issue.
+
+In the beginning of last week, December 5th, I worked on adding a review button to the game details page, this button was necessary to lead into the review form which used the game_id from the page. In addition to this, I worked on creating a my required unit test, I decided to create a unit test for our create review method and got it passing.
+
+Later in the week, I worked on the edit functionality for the user profile as well as some issues that arose here. For starters, the user information wouldn't update after submitting the edit, although it was visible on the backend. The team and I figured that this was because the data we were pulling was from the logged in user, whose data wouldn't update, so we opted to update the profile information from the get users method, fixing our issue.
+
+Towards the end of the week, I worked on more basic functionality like showing dynamic images for the favorites/wishlist in the user's profile since when I initially created them, the game table didn't have a picture value. Finally, I worked on adding game details link to the games list and labeling for the edit user profile form.

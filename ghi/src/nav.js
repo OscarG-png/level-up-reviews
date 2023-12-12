@@ -40,6 +40,7 @@ function Nav({ genre,platforms, games }) {
   const handleLogout = async (e) => {
     await logout();
     navigate("/");
+
   };
 
   const handleGenreClick = (genre_id) => {

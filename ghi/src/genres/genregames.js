@@ -38,7 +38,6 @@ function GenreGames() {
               className="max-w-sm flex flex-wrap gap-5 "
               imgAlt="Meaningful alt text for an image that is not purely decorative"
               imgSrc={game.game_picture}
-              imgClass="object-cover w-full h-full"
             >
               <h5
                 key={game.game_id + index}

@@ -30,7 +30,6 @@ I learned today how to redirect some tokens and make sure that it's authenticate
 
 ## December 8, 2023
 
-This week I worked on creating the platform games or games associated with a platform. I added new migrations so that some pictures would be able to be utilized. Was able to work with some of the error handling as well.
-I assisted with some debugging associated with some of the other group members associated with the game details and top-rated.
+This week I worked on creating the platform games or games associated with a platform. I added new migrations so that some pictures would be able to be utilized. Was able to work with some of the error handling as well. Had a lot of issues with the navbar and trying to pass in the token for the login in order for it to work. I also had issues with trying to pass in some other data without needing a field. Needed to utilize props in a specific way for that. I barely worked in the game details page just to pass in the link. I assisted with some debugging associated with some of the other group members associated with the game details and top-rated. Otherwise, I just adjusted the css and other things as well. it was certain things like the game-image and card-custom.
 
-I learned how to pass in some of the pictures through the migrations that was utilized.
+I learned how to pass in some of the pictures through the migrations that was utilized. Also learned how to pass through some css in order to make it aligned with how we want the site to look through.

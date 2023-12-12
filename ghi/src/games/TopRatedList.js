@@ -14,7 +14,8 @@ function TopRatedList({ games, reviews }) {
       );
       return totalRating / relevantReviews.length;
     }
-    return 0; // or any default value if there are no reviews above 90
+
+    return 0;
   };
   const filteredGames = games.filter(averageRatingAbove90);
   return (

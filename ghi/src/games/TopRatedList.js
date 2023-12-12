@@ -7,20 +7,16 @@ function TopRatedList({ games, reviews }) {
     const relevantReviews = reviews.filter(
       (review) => review.game_id === game.id && review.rating > 90
     );
-
     if (relevantReviews.length > 0) {
       const totalRating = relevantReviews.reduce(
         (sum, review) => sum + review.rating,
         0
       );
-
       return totalRating / relevantReviews.length;
     }
-
     return 0; // or any default value if there are no reviews above 90
   };
   const filteredGames = games.filter(averageRatingAbove90);
-
   return (
     <div className="main h-screen w-full bg-white dark:bg-gray-800 text-customPurple ">
       <div>
@@ -49,5 +45,4 @@ function TopRatedList({ games, reviews }) {
     </div>
   );
 }
-
 export default TopRatedList;

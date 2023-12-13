@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Card, Button } from "flowbite-react";
+import { Card} from "flowbite-react";
 import { Link, useParams } from "react-router-dom";
 
 function PlatformGames() {
@@ -36,9 +36,10 @@ function PlatformGames() {
     <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
         <h2>List of games</h2>
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-3">
           {platformgames.map((game, index) => (
             <Card key={game.game_id} className="card-custom max-w-sm basis-1/2">
+              <Link to={`/games/${game.game_id}`}>
               <img
                 src={game.game_picture}
                 alt={`${game.title}`}
@@ -50,11 +51,7 @@ function PlatformGames() {
               >
                 {game.title}
               </h5>
-              <div className="flex justify-center">
-                <Link to={`/games/${game.game_id}`}>
-                  <Button>See Details</Button>
-                </Link>
-              </div>
+              </Link>
             </Card>
           ))}
         </div>

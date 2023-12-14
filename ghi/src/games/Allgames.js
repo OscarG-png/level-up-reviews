@@ -23,7 +23,7 @@ function AllGames({ games }) {
         return (
           <Card
               key={game.id}
-              className="card-custom max-w-sm basis-1/2 dark:bg-gray-800 text-black dark:text-white"
+              className="card-custom max-w-sm basis-1/2 dark:bg-gray-800 text-black dark:text-white bold-card"
             >
               <Link key={game.id} to={`/games/${game.id}`}>
               <img

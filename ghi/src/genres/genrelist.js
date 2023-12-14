@@ -16,7 +16,7 @@ function GenreList({ genre }) {
           {genre.map((g, index) => {
             return (
 
-              <Card key={g.id + index} className="card-custom max-w-sm basis-1/">
+              <Card key={g.id + index} className="card-custom max-w-sm basis-1/2 bold-card bg-purple-500">
                   <Link to={`/genres/${g.id}/games`}>
                     <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAczF9JgfmT2mL7DOldJCsb5_NRcgiQA7vvdBc_h1B2g&s"

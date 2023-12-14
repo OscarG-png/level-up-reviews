@@ -28,27 +28,27 @@ function RecentPage({ games }) {
         List of Games
       </h1>
         <div className="flex flex-wrap gap-5 ">
-      {filteredGames.map((game,index) => {
-        return (
-          <Card key={game.id + index} className="card-custom max-w-sm basis-1/2">
-            <Link to={`/games/${game.id}`} >
-            <img
-                src={game.game_picture}
-                alt={`${game.title}`}
-                className="game-image"
-              />
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-              {game.title}
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400 text-center">
-              Released on {formatedDate(game.release_date)}
-            </p>
-            </Link>
-          </Card>
-        );
-      })}
-    </div>
-    </div>
+          {filteredGames.map((game,index) => {
+            return (
+              <Card key={game.id + index} className="card-custom max-w-sm basis-1/2 bold-card">
+                <Link to={`/games/${game.id}`} >
+                <img
+                    src={game.game_picture}
+                    alt={`${game.title}`}
+                    className="game-image"
+                  />
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                  {game.title}
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400 text-center">
+                  Released on {formatedDate(game.release_date)}
+                </p>
+                </Link>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

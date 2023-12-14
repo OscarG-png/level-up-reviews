@@ -27,7 +27,7 @@ function PlatformList({platforms}) {
                 to={`/platforms/${p.id}/games`}
                 >
                 <Card
-                    className="max-w-sm"
+                    className="max-w-sm bold-card"
                     imgAlt="Meaningful alt text for an image that is not purely decorative"
                     imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAczF9JgfmT2mL7DOldJCsb5_NRcgiQA7vvdBc_h1B2g&s"
                   >

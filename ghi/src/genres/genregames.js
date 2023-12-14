@@ -35,7 +35,7 @@ function GenreGames() {
       </h1>
         <div className="flex flex-wrap gap-3">
           {genregames.map((game, index) => (
-            <Card key={game.game_id} className="card-custom max-w-sm basis-1/2">
+            <Card key={game.game_id} className="card-custom max-w-sm basis-1/2 bold-card">
               <Link to={`/games/${game.game_id}`}>
               <img
                 src={game.game_picture}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import { Card } from "flowbite-react";
 
 function CreateReview({ userData }) {
   const { game_id } = useParams();

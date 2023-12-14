@@ -16,11 +16,11 @@ function GenreList({ genre }) {
           {genre.map((g, index) => {
             return (
 
-              <Card key={g.id + index} className="card-custom max-w-sm basis-1/2 bold-card bg-purple-500">
+              <Card key={g.id + index} className="card-custom max-w-sm basis-1/2 bold-card bg">
                   <Link to={`/genres/${g.id}/games`}>
                     <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAczF9JgfmT2mL7DOldJCsb5_NRcgiQA7vvdBc_h1B2g&s"
-                    alt="Meaningful alt text for an image that is not purely decorative"
+                    alt="Meaningful alt text"
                     className="game-image"
                   />
                   <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">

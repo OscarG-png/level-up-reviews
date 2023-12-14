@@ -6,7 +6,12 @@ function GenreList({ genre }) {
   return (
     <div className="main h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-        <h2>Choose a Genre</h2>
+        <h1
+        className="p-5 text-center text-outline text-customPurple dark:bg-gray-800"
+        style={{ fontSize: "4rem", fontWeight: "bold" }}
+      >
+        Choose a Genre
+      </h1>
         <div className="flex flex-wrap gap-5">
           {genre.map((g, index) => {
             return (
@@ -18,7 +23,7 @@ function GenreList({ genre }) {
                     alt="Meaningful alt text for an image that is not purely decorative"
                     className="game-image"
                   />
-                  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                     {g.title}
                   </h5>
                 </Link>
@@ -32,5 +37,3 @@ function GenreList({ genre }) {
 }
 
 export default GenreList;
-
-

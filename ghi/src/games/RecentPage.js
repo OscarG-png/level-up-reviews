@@ -21,7 +21,12 @@ function RecentPage({ games }) {
   return (
     <div className="main h-screen w-screen flex gap-5 bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-         <h2 className="text-right">List of games</h2>
+         <h1
+        className="p-5 text-center text-outline text-customPurple dark:bg-gray-800"
+        style={{ fontSize: "4rem", fontWeight: "bold" }}
+      >
+        List of Games
+      </h1>
         <div className="flex flex-wrap gap-5 ">
       {filteredGames.map((game,index) => {
         return (

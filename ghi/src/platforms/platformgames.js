@@ -35,7 +35,12 @@ function PlatformGames() {
   return (
     <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-        <h2>List of games</h2>
+        <h1
+        className="p-5 text-center text-outline text-customPurple dark:bg-gray-800"
+        style={{ fontSize: "4rem", fontWeight: "bold" }}
+      >
+        List of Games
+      </h1>
         <div className="flex flex-wrap gap-3">
           {platformgames.map((game, index) => (
             <Card key={game.game_id} className="card-custom max-w-sm basis-1/2">

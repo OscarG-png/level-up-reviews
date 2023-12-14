@@ -24,35 +24,38 @@ function GenreGames() {
   if (genregames.length === 0) {
     return <div>No games available for this genre.</div>;
   }
-  return (
-    <div className=" main  h-screen flex flex-wrap gap-5 bg-white dark:bg-gray-800 text-black dark:text-white">
+ return (
+    <div className=" main h-screen  w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-          List of {genregames.name} games
-        </h2>
-        <div className="flex flex-wrap gap-5 ">
+        <h1
+        className="p-5 text-center text-outline text-customPurple dark:bg-gray-800"
+        style={{ fontSize: "4rem", fontWeight: "bold" }}
+      >
+        List of Games
+      </h1>
+        <div className="flex flex-wrap gap-3">
           {genregames.map((game, index) => (
-          <Link key= {game.game_id} to={`/games/${game.game_id}`}>
-            <Card
-              key= {game.game_id}
-              className="max-w-sm flex flex-wrap gap-5 "
-              imgAlt="Meaningful alt text for an image that is not purely decorative"
-              imgSrc={game.game_picture}
-              imgClass="object-cover w-full h-full"
-            >
+            <Card key={game.game_id} className="card-custom max-w-sm basis-1/2 bold-card">
+              <Link to={`/games/${game.game_id}`}>
+              <img
+                src={game.game_picture}
+                alt={`${game.title}`}
+                className="game-image"
+              />
               <h5
                 key={game.game_id + index}
                 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center"
               >
                 {game.title}
               </h5>
+              </Link>
             </Card>
-           </Link>
           ))}
         </div>
       </div>
     </div>
   );
 }
+
 
 export default GenreGames;

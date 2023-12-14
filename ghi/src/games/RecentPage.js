@@ -21,29 +21,34 @@ function RecentPage({ games }) {
   return (
     <div className="main h-screen w-screen flex gap-5 bg-white dark:bg-gray-800 text-black dark:text-white">
       <div>
-         <h2>List of games</h2>
+         <h1
+        className="p-5 text-center text-outline text-customPurple dark:bg-gray-800"
+        style={{ fontSize: "4rem", fontWeight: "bold" }}
+      >
+        List of Games
+      </h1>
         <div className="flex flex-wrap gap-5 ">
-      {filteredGames.map((game,index) => {
-        return (
-          <Link  to={`/games/${game.id}`} key={game.id + index}>
-          <Card
-            key={game.id}
-            className="max-w-sm basis-1/2"
-            imgAlt="Meaningful alt text for an image that is not purely decorative"
-            imgSrc={game.game_picture}
-          >
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              {game.title}
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              Released on {formatedDate(game.release_date)}
-            </p>
-          </Card>
-          </Link>
-        );
-      })}
-    </div>
-    </div>
+          {filteredGames.map((game,index) => {
+            return (
+              <Card key={game.id + index} className="card-custom max-w-sm basis-1/2 bold-card">
+                <Link to={`/games/${game.id}`} >
+                <img
+                    src={game.game_picture}
+                    alt={`${game.title}`}
+                    className="game-image"
+                  />
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                  {game.title}
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400 text-center">
+                  Released on {formatedDate(game.release_date)}
+                </p>
+                </Link>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

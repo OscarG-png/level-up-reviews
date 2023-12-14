@@ -13,7 +13,12 @@ function PlatformList({platforms}) {
 
   return (
     <div className="main h-screen bg-white dark:bg-gray-800 text-black dark:text-white">
-    <h2>Choose a Platform</h2>
+    <h1
+        className="p-5 text-center text-outline text-customPurple dark:bg-gray-800"
+        style={{ fontSize: "4rem", fontWeight: "bold" }}
+      >
+        Choose a Platform
+      </h1>
       <div className="flex flex-wrap gap-5 h-full w-full bg-white dark:bg-gray-800 text-black dark:text-white" >
           {platforms.map( p => {
             return (
@@ -22,16 +27,13 @@ function PlatformList({platforms}) {
                 to={`/platforms/${p.id}/games`}
                 >
                 <Card
-                    className="max-w-sm"
+                    className="max-w-sm bold-card"
                     imgAlt="Meaningful alt text for an image that is not purely decorative"
                     imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAczF9JgfmT2mL7DOldJCsb5_NRcgiQA7vvdBc_h1B2g&s"
                   >
-                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                       {p.name}
                     </h5>
-                    <p className="font-normal text-gray-700 dark:text-gray-400">
-                        place holder for description
-                    </p>
                 </Card>
               </Link>
             );

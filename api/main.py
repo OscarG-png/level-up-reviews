@@ -9,7 +9,8 @@ from routers import (
     game_genres,
     reviews,
     favorites,
-    wishlist
+    wishlist,
+    chat
 )
 from authenticator import authenticator
 import os
@@ -25,6 +26,7 @@ app.include_router(game_genres.router)
 app.include_router(reviews.router)
 app.include_router(favorites.router)
 app.include_router(wishlist.router)
+app.include_router(chat.router)
 
 app.add_middleware(
     CORSMiddleware,
